@@ -1,6 +1,6 @@
 ################################################################################
 # Harvest the QTL for a given data set.
-# Gather together the chunked Q TL files into one LDO file and harvest the
+# Gather together the chunked QTL files into one LDO file and harvest the
 # maximum LOD for each analyte.
 # Daniel Gatti
 # dan.gatti@jas.org

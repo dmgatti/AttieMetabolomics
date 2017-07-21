@@ -1,4 +1,4 @@
-################################################################################
+0###############################################################################
 # Given a large matrix with LOD scores and marker map, make a QTL heatmap, 
 # clustering the LOD curves, but not the markers.
 # Daniel Gatti
@@ -49,9 +49,10 @@ breaks = 0:lod.thr
 col = brewer.pal(length(breaks) - 1, "YlOrRd")
 
 png(output.file, width = 6000, height = 4000, res = 128)
-par(plt = c(0.07, 0.93, 0.05, 0.95))
+par(plt = c(0.1, 0.93, 0.08, 0.95))
 image(1:nrow(lod), 1:ncol(lod), lod, breaks = breaks, col = col, axes = F,
       ann = F)
+# NOTE: we print every other analyte to make the plot legible.
 at = seq(1, ncol(lod), 2)
 mtext(side = 2, line = 0.1, at = at, text = colnames(lod)[at], cex = 0.7, las = 1)
 mtext(side = 4, line = 0.1, at = at, text = colnames(lod)[at], cex = 0.7, las = 1)
