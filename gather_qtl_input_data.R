@@ -73,6 +73,14 @@ probs    = probs[samples,,]
 
 print(paste(nrow(pheno), "Samples"))
 
+# Create factors for covariates that we want to map as factors.
+pheno$sex = factor(pheno$sex)
+pheno$generation = factor(pheno$generation)
+pheno$Batch = factor(pheno$Batch)
+pheno.rz$sex = factor(pheno.rz$sex)
+pheno.rz$generation = factor(pheno.rz$generation)
+pheno.rz$Batch = factor(pheno.rz$Batch)
+
 # Read in the marker data.
 load(url("ftp://ftp.jax.org/MUGA/GM_snps.Rdata"))
 
@@ -140,6 +148,14 @@ pheno.rz = pheno.rz[samples,]
 probs    = probs[samples,,]
 
 print(paste(nrow(pheno), "Samples"))
+
+# Create factors for covariates that we want to map as factors.
+pheno$sex = factor(pheno$sex)
+pheno$generation = factor(pheno$generation)
+pheno$Batch = factor(pheno$Batch)
+pheno.rz$sex = factor(pheno.rz$sex)
+pheno.rz$generation = factor(pheno.rz$generation)
+pheno.rz$Batch = factor(pheno.rz$Batch)
 
 # Read in the marker data.
 load(url("ftp://ftp.jax.org/MUGA/GM_snps.Rdata"))
@@ -210,6 +226,14 @@ probs    = probs[samples,,]
 
 print(paste(nrow(pheno), "Samples"))
 
+# Create factors for covariates that we want to map as factors.
+pheno$sex = factor(pheno$sex)
+pheno$generation = factor(pheno$generation)
+pheno$Batch = factor(pheno$Batch)
+pheno.rz$sex = factor(pheno.rz$sex)
+pheno.rz$generation = factor(pheno.rz$generation)
+pheno.rz$Batch = factor(pheno.rz$Batch)
+
 # Read in the marker data.
 load(url("ftp://ftp.jax.org/MUGA/GM_snps.Rdata"))
 
@@ -277,6 +301,14 @@ pheno.rz = pheno.rz[samples,]
 probs    = probs[samples,,]
 
 print(paste(nrow(pheno), "Samples"))
+
+# Create factors for covariates that we want to map as factors.
+pheno$sex = factor(pheno$sex)
+pheno$generation = factor(pheno$generation)
+pheno$Batch = factor(pheno$Batch)
+pheno.rz$sex = factor(pheno.rz$sex)
+pheno.rz$generation = factor(pheno.rz$generation)
+pheno.rz$Batch = factor(pheno.rz$Batch)
 
 # Read in the marker data.
 load(url("ftp://ftp.jax.org/MUGA/GM_snps.Rdata"))
@@ -353,6 +385,14 @@ probs = probs[samples,,]
 
 print(paste(nrow(pheno), "Samples"))
 
+# Create factors for covariates that we want to map as factors.
+pheno$sex = factor(pheno$sex)
+pheno$generation = factor(pheno$generation)
+pheno$Batch = factor(pheno$Batch)
+pheno.rz$sex = factor(pheno.rz$sex)
+pheno.rz$generation = factor(pheno.rz$generation)
+pheno.rz$Batch = factor(pheno.rz$Batch)
+
 # Read in the marker data.
 load(url("ftp://ftp.jax.org/MUGA/GM_snps.Rdata"))
 
@@ -427,6 +467,14 @@ pheno = pheno[samples,]
 probs = probs[samples,,]
 
 print(paste(nrow(pheno), "Samples"))
+
+# Create factors for covariates that we want to map as factors.
+pheno$sex = factor(pheno$sex)
+pheno$generation = factor(pheno$generation)
+pheno$Batch = factor(pheno$Batch)
+pheno.rz$sex = factor(pheno.rz$sex)
+pheno.rz$generation = factor(pheno.rz$generation)
+pheno.rz$Batch = factor(pheno.rz$Batch)
 
 # Read in the marker data.
 load(url("ftp://ftp.jax.org/MUGA/GM_snps.Rdata"))
@@ -503,6 +551,14 @@ probs = probs[samples,,]
 
 print(paste(nrow(pheno), "Samples"))
 
+# Create factors for covariates that we want to map as factors.
+pheno$sex = factor(pheno$sex)
+pheno$generation = factor(pheno$generation)
+pheno$Batch = factor(pheno$Batch)
+pheno.rz$sex = factor(pheno.rz$sex)
+pheno.rz$generation = factor(pheno.rz$generation)
+pheno.rz$Batch = factor(pheno.rz$Batch)
+
 # Read in the marker data.
 load(url("ftp://ftp.jax.org/MUGA/GM_snps.Rdata"))
 
@@ -578,6 +634,14 @@ pheno = pheno[samples,]
 probs = probs[samples,,]
 
 print(paste(nrow(pheno), "Samples"))
+
+# Create factors for covariates that we want to map as factors.
+pheno$sex = factor(pheno$sex)
+pheno$generation = factor(pheno$generation)
+pheno$Batch = factor(pheno$Batch)
+pheno.rz$sex = factor(pheno.rz$sex)
+pheno.rz$generation = factor(pheno.rz$generation)
+pheno.rz$Batch = factor(pheno.rz$Batch)
 
 # Read in the marker data.
 load(url("ftp://ftp.jax.org/MUGA/GM_snps.Rdata"))
