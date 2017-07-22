@@ -10,7 +10,7 @@ library(RColorBrewer)
 
 # Arguments:
 # input.file: The *.rds file containing the LOD curves.
-# output.file: full path to the figure file to output.
+# output.file: full path to the figure file to output (PNG).
 # lod.thr: LOD threshold above which LODs will be truncated to prevent large
 #          peaks from dominating the coloring of the heatmap.
 args = commandArgs(trailingOnly = TRUE)
