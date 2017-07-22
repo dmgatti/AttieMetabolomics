@@ -10,15 +10,12 @@ library(tidyverse)
 # Arguments:
 # input.file: full path to the *.csv qtl summary file.
 # output.file: full path to the output figure file as a PNG.
-# thr: LOD threshold to use when selecting QTL peaks.
 args = commandArgs(trailingOnly = TRUE)
 input.file  = args[1]
 output.file = args[2]
-thr = as.numeric(args[3])
 
 print(paste("INPUT.FILE=", input.file))
 print(paste("OUPUT.FILE=", output.file))
-print(paste("THR=", thr))
 
 # Load in the data.
 data = read.csv(input.file)
