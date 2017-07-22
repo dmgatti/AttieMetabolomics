@@ -15,20 +15,17 @@ library(dplyr)
 # 2: output dir and file prefix.
 # 3: chunk_size: integer that is the chunk size.
 # 4: chunk_number: integer that is the chunk number to run.
-# 5: max_col: integer that is the maximum number of columns in the phenotype file.
 args = commandArgs(trailingOnly = TRUE)
 
 input.file = args[1]
 output.prefix = args[2]
 chunk_size = as.numeric(args[3])
 chunk_number = as.numeric(args[4])
-max_col = as.numeric(args[5])
 
 print(paste("INPUT:", input.file))
 print(paste("OUTPUT:", output.prefix))
 print(paste("CHUNK_SIZE:", chunk_size))
 print(paste("CHUNK_NUMBER:", chunk_number))
-print(paste("MAX_COL:", max_col))
 
 #####################
 # Load in the data. #
@@ -60,6 +57,7 @@ pheno = as.matrix(pheno[,pheno.descr$is_pheno])
 # Calculate the phenotype range to run. #
 #########################################
 
+max_col = ncol(pheno)
 pheno.rng = ((chunk_number - 1) * chunk_size + 1):(chunk_number * chunk_size)
 if(pheno.rng[length(pheno.rng)] > max_col) {
   pheno.rng = pheno.rng[1]:max_col

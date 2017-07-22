@@ -1,5 +1,5 @@
 #!/bin/bash -l
-#PBS -q short -l nodes=1:ppn=1,walltime=1:00:00
+#PBS -q short -l nodes=1:ppn=1,walltime=2:00:00
 module load R/3.3.2
 cd /hpcdata/gac/projects/Attie_DO_Liver_Metabolomics/scripts
 

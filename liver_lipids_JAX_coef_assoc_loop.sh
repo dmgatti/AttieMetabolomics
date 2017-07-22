@@ -9,12 +9,13 @@ OD=/hpcdata/gac/projects/Attie_DO_Liver_Metabolomics/QTL/Liver/lipids_norm_jax/
 # Output directory for figures.
 FD=/hpcdata/gac/projects/Attie_DO_Liver_Metabolomics/figures/QTL/Liver/lipids_norm_jax/
 # Number of analytes to map in one chunk.
-SIZE=10
+SIZE=20
 
 
-# Set the maximum number in the loop to ceiling(number of rows in QTL summary/10).
+# Set the maximum number in the loop to ceiling(number of rows in QTL summary/SIZE).
 # 1774 rows in liver_lipids_jax_norm_qtl_summary_thresh_6.csv
-for i in {1..178}
+for i in {1..89}
 do
   qsub -v DATAFILE=${DF},QTLFILE=${QF},OUTDIR=${OD},FIGDIR${FD},CHUNKSIZE=${SIZE},CHUNKNUM=${i} qtl2_coef_assoc_engine.sh
+  sleep 30s
 done

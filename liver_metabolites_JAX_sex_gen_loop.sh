@@ -2,9 +2,11 @@ cd /hpcdata/gac/projects/Attie_DO_Liver_Metabolomics/scripts
 
 INPUT=/hpcdata/gac/derived/Attie_DO_Liver_Metabolomics/qtl2_input/attie_liver_metabolites_qtl2_input_sex_gen.Rdata
 OUTPUT=/hpcdata/gac/projects/Attie_DO_Liver_Metabolomics/QTL/Liver/metabolites_norm_jax_sex_gen/
+SIZE=20
 
-# Set the maximum number in the loop to ceiling(MAXCOL/10).
-for i in {16..31}
+# Set the maximum number in the loop to ceiling(MAXCOL/SIZE).
+for i in {1..16}
 do
-  qsub -v INDIR=${INPUT},OUTPREFIX=${OUTPUT},CHUNKSIZE=10,CHUNKNUM=${i},MAXCOL=308 qtl2_scan_engine.sh
+  qsub -v INDIR=${INPUT},OUTPREFIX=${OUTPUT},CHUNKSIZE=${SIZE},CHUNKNUM=${i} qtl2_scan_engine.sh
+  sleep 30s
 done

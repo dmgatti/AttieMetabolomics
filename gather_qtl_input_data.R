@@ -83,6 +83,7 @@ pheno.rz$Batch = factor(pheno.rz$Batch)
 
 # Read in the marker data.
 load(url("ftp://ftp.jax.org/MUGA/GM_snps.Rdata"))
+markers = GM_snps[dimnames(probs)[[3]],1:4]
 
 # Make marker map.
 map = map_df_to_list(map = GM_snps[,1:4], pos_column="pos")
@@ -159,6 +160,7 @@ pheno.rz$Batch = factor(pheno.rz$Batch)
 
 # Read in the marker data.
 load(url("ftp://ftp.jax.org/MUGA/GM_snps.Rdata"))
+markers = GM_snps[dimnames(probs)[[3]],1:4]
 
 # Make marker map.
 map = map_df_to_list(map = GM_snps[,1:4], pos_column="pos")
@@ -236,6 +238,7 @@ pheno.rz$Batch = factor(pheno.rz$Batch)
 
 # Read in the marker data.
 load(url("ftp://ftp.jax.org/MUGA/GM_snps.Rdata"))
+markers = GM_snps[dimnames(probs)[[3]],1:4]
 
 # Make marker map.
 map = map_df_to_list(map = GM_snps[,1:4], pos_column="pos")
@@ -312,6 +315,7 @@ pheno.rz$Batch = factor(pheno.rz$Batch)
 
 # Read in the marker data.
 load(url("ftp://ftp.jax.org/MUGA/GM_snps.Rdata"))
+markers = GM_snps[dimnames(probs)[[3]],1:4]
 
 # Make marker map.
 map = map_df_to_list(map = GM_snps[,1:4], pos_column="pos")
@@ -380,8 +384,9 @@ rownames(probs) = sub("^DO", "DO-", rownames(probs))
 # Subset by samples.
 samples = sort(intersect(rownames(pheno), rownames(probs)))
 if(length(samples) == 0) stop("NO SAMPLES IN COMMON!!")
-pheno = pheno[samples,]
-probs = probs[samples,,]
+pheno    = pheno[samples,]
+pheno.rz = pheno.rz[samples,]
+probs    = probs[samples,,]
 
 print(paste(nrow(pheno), "Samples"))
 
@@ -395,6 +400,7 @@ pheno.rz$Batch = factor(pheno.rz$Batch)
 
 # Read in the marker data.
 load(url("ftp://ftp.jax.org/MUGA/GM_snps.Rdata"))
+markers = GM_snps[dimnames(probs)[[3]],1:4]
 
 # Make marker map.
 map = map_df_to_list(map = GM_snps[,1:4], pos_column="pos")
@@ -463,8 +469,9 @@ rownames(probs) = sub("^DO", "DO-", rownames(probs))
 # Subset by samples.
 samples = sort(intersect(rownames(pheno), rownames(probs)))
 if(length(samples) == 0) stop("NO SAMPLES IN COMMON!!")
-pheno = pheno[samples,]
-probs = probs[samples,,]
+pheno    = pheno[samples,]
+pheno.rz = pheno.rz[samples,]
+probs    = probs[samples,,]
 
 print(paste(nrow(pheno), "Samples"))
 
@@ -478,6 +485,7 @@ pheno.rz$Batch = factor(pheno.rz$Batch)
 
 # Read in the marker data.
 load(url("ftp://ftp.jax.org/MUGA/GM_snps.Rdata"))
+markers = GM_snps[dimnames(probs)[[3]],1:4]
 
 # Make marker map.
 map = map_df_to_list(map = GM_snps[,1:4], pos_column="pos")
@@ -546,8 +554,9 @@ rownames(probs) = sub("^DO", "DO-", rownames(probs))
 # Subset by samples.
 samples = sort(intersect(rownames(pheno), rownames(probs)))
 if(length(samples) == 0) stop("NO SAMPLES IN COMMON!!")
-pheno = pheno[samples,]
-probs = probs[samples,,]
+pheno    = pheno[samples,]
+pheno.rz = pheno.rz[samples,]
+probs    = probs[samples,,]
 
 print(paste(nrow(pheno), "Samples"))
 
@@ -561,6 +570,7 @@ pheno.rz$Batch = factor(pheno.rz$Batch)
 
 # Read in the marker data.
 load(url("ftp://ftp.jax.org/MUGA/GM_snps.Rdata"))
+markers = GM_snps[dimnames(probs)[[3]],1:4]
 
 # Make marker map.
 map = map_df_to_list(map = GM_snps[,1:4], pos_column="pos")
@@ -630,8 +640,9 @@ rownames(probs) = sub("^DO", "DO-", rownames(probs))
 # Subset by samples.
 samples = sort(intersect(rownames(pheno), rownames(probs)))
 if(length(samples) == 0) stop("NO SAMPLES IN COMMON!!")
-pheno = pheno[samples,]
-probs = probs[samples,,]
+pheno    = pheno[samples,]
+pheno.rz = pheno.rz[samples,]
+probs    = probs[samples,,]
 
 print(paste(nrow(pheno), "Samples"))
 
@@ -645,6 +656,7 @@ pheno.rz$Batch = factor(pheno.rz$Batch)
 
 # Read in the marker data.
 load(url("ftp://ftp.jax.org/MUGA/GM_snps.Rdata"))
+markers = GM_snps[dimnames(probs)[[3]],1:4]
 
 # Make marker map.
 map = map_df_to_list(map = GM_snps[,1:4], pos_column="pos")
