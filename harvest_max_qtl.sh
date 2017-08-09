@@ -1,5 +1,5 @@
 #!/bin/bash -l
-#PBS -q short -l nodes=1:ppn=1,walltime=3:00:00
+#PBS -q short -l nodes=1:ppn=1,walltime=3:59:00
 module load R/3.3.2
 
 # For each chromosome, harvest the maximum peak per analyte.

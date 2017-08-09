@@ -18,6 +18,7 @@ uw.sg.dir = "metabolites_norm_uwisc_sex_gen/"
 # Read in the QTL summaries with the maximum LOD for each analyte.
 data = as.list(1:4)
 names(data) = c("JAX norm: sex, gen & batch", "JAX norm: sex & gen", "U Wisc norm: sex, gen & batch", "U Wisc norm: sex & gen")
+
 data[[1]] = read.csv(paste0(jax.dir, "liver_metabolites_jax_norm_qtl_summary.csv"))
 data[[2]] = read.csv(paste0(jax.sg.dir, "liver_metabolites_jax_norm_sex_gen_qtl_summary.csv"))
 data[[3]] = read.csv(paste0(uw.dir, "liver_metabolites_uwisc_norm_qtl_summary.csv"))
