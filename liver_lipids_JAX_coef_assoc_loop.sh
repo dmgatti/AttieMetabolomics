@@ -1,13 +1,13 @@
-cd /hpcdata/gac/projects/Attie_DO_Liver_Metabolomics/scripts
+cd /hpcdata/gac/projects/Attie_DO_Metabolomics/scripts
 
 # The full path to the qtl2 data input file.
-DF=/hpcdata/gac/derived/Attie_DO_Liver_Metabolomics/qtl2_input/attie_liver_lipids_qtl2_input.Rdata
+DF=/hpcdata/gac/derived/Attie_DO_Metabolomics/qtl2_input/attie_liver_lipids_qtl2_input.Rdata
 # The full path to the QTL summary file.
-QF=/hpcdata/gac/projects/Attie_DO_Liver_Metabolomics/QTL/Liver/lipids_norm_jax/liver_lipids_jax_norm_qtl_summary_thresh_6.csv
+QF=/hpcdata/gac/projects/Attie_DO_Metabolomics/QTL/Liver/lipids_norm_jax/liver_lipids_jax_norm_qtl_summary_thresh_6.csv
 # Output directory for data.
-OD=/hpcdata/gac/projects/Attie_DO_Liver_Metabolomics/QTL/Liver/lipids_norm_jax/
+OD=/hpcdata/gac/projects/Attie_DO_Metabolomics/QTL/Liver/lipids_norm_jax/
 # Output directory for figures.
-FD=/hpcdata/gac/projects/Attie_DO_Liver_Metabolomics/figures/QTL/Liver/lipids_norm_jax/
+FD=/hpcdata/gac/projects/Attie_DO_Metabolomics/figures/QTL/Liver/lipids_norm_jax/
 # Number of analytes to map in one chunk.
 SIZE=20
 

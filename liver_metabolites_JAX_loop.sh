@@ -1,7 +1,7 @@
-cd /hpcdata/gac/projects/Attie_DO_Liver_Metabolomics/scripts
+cd /hpcdata/gac/projects/Attie_DO_Metabolomics/scripts
 
-INPUT=/hpcdata/gac/derived/Attie_DO_Liver_Metabolomics/qtl2_input/attie_liver_metabolites_qtl2_input.Rdata
-OUTPUT=/hpcdata/gac/projects/Attie_DO_Liver_Metabolomics/QTL/Liver/metabolites_norm_jax/
+INPUT=/hpcdata/gac/derived/Attie_DO_Metabolomics/qtl2_input/attie_liver_metabolites_qtl2_input.Rdata
+OUTPUT=/hpcdata/gac/projects/Attie_DO_Metabolomics/QTL/Liver/metabolites_norm_jax/
 SIZE=20
 
 # Set the maximum number in the loop to ceiling(MAXCOL/SIZE).

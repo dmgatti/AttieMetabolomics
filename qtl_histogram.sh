@@ -6,8 +6,8 @@ module load R/3.3.2
 # output.file: full path to the output figure file as a PNG.
 # thr: LOD threshold to use when selecting QTL peaks.
 
-cd /hpcdata/gac/projects/Attie_DO_Liver_Metabolomics/scripts
-BASEDIR=/hpcdata/gac/projects/Attie_DO_Liver_Metabolomics/
+cd /hpcdata/gac/projects/Attie_DO_Metabolomics/scripts
+BASEDIR=/hpcdata/gac/projects/Attie_DO_Metabolomics/
 
 ##########
 # Liver lipids: JAX: sex, gen & batch
