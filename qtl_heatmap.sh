@@ -96,4 +96,9 @@ OUTFILE=/hpcdata/gac/projects/Attie_DO_Metabolomics/figures/QTL/plasma_lipids_no
 
 R --no-save --args ${INFILE} ${OUTFILE} ${LODTHR} < qtl_heatmap.R > qtl_heatmap_known_plasma_lipids_uwisc_norm.Rout
 
+##########
+# Cecum lipids, JAX normalized, sex, gen & batch.
+INFILE=/hpcdata/gac/projects/Attie_DO_Metabolomics/QTL/Cecum/lipids_norm_jax/cecum_lipids_jax_norm_all_qtl.rds
+OUTFILE=/hpcdata/gac/projects/Attie_DO_Metabolomics/figures/QTL/cecum_lipids_norm_jax/cecum_lipids_jax_qtl_heatmap.png
 
+R --no-save --args ${INFILE} ${OUTFILE} ${LODTHR} < qtl_heatmap.R > qtl_heatmap_cecum_lipids_jax_norm.Rout

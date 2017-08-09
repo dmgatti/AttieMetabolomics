@@ -56,3 +56,8 @@ INPUTFILE=/hpcdata/gac/projects/Attie_DO_Metabolomics/QTL/Plasma/lipids_norm_uwi
 OUTPUTPREFIX=/hpcdata/gac/projects/Attie_DO_Metabolomics/QTL/Plasma/lipids_norm_uwisc/plasma_lipids_uwisc_norm
 R --no-save --args ${INPUTFILE} ${OUTPUTPREFIX} ${THR} < harvest_thr_qtl.R > harvest_qtl_plasma_lipids_uwisc.Rout
 
+
+# JAX normalized cecum lipids. (NOTE: Place a / at the end of the paths)
+INPUTFILE=/hpcdata/gac/projects/Attie_DO_Metabolomics/QTL/Cecum/lipids_norm_jax/cecum_lipids_jax_norm_all_qtl.rds
+OUTPUTPREFIX=/hpcdata/gac/projects/Attie_DO_Metabolomics/QTL/Cecum/lipids_norm_jax/cecum_lipids_jax_norm
+R --no-save --args ${INPUTFILE} ${OUTPUTPREFIX} ${THR} < harvest_thr_qtl.R > harvest_qtl_cecum_lipids_jax.Rout
