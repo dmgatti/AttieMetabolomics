@@ -31,8 +31,8 @@ source(paste0(source.dir, "assoc_mapping.R"))
 # chunk.number: Index of th current chunk of QTL summary rows to run.
 args = commandArgs(trailingOnly = TRUE)
 data.file  = args[1]
-sum.file   = args[2]
-qtl.file   = args[3]
+qtl.file   = args[2]
+sum.file   = args[3]
 output.dir = args[4]
 fig.dir    = args[5]
 chunk_size   = as.numeric(args[6])
@@ -45,6 +45,14 @@ chunk_number = as.numeric(args[7])
 #fig.dir    = "/hpcdata/gac/projects/Attie_DO_Metabolomics/figures/QTL/liver_lipids_norm_jax/"
 #chunk_size = 10
 #chunk_number = 1
+
+print(paste("data.file =", data.file))
+print(paste("qtl.file =", qtl.file))
+print(paste("sum.file =", sum.file))
+print(paste("output.dir =", output.dir))
+print(paste("fig.dir =", fig.dir))
+print(paste("chunk_size =", chunk_size))
+print(paste("chunk_number =", chunk_number))
 
 ################################
 # Load in the qtl2 input data. #
