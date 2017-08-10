@@ -14,7 +14,7 @@ library(RSQLite)
 library(dplyr)
 library(AnnotationHub)
 
-source.dir = "/hpcdata/gac/projects/Attie_DO_Liver_Metabolomics/scripts/"
+source.dir = "/hpcdata/gac/projects/Attie_DO_Metabolomics/scripts/"
 
 source(paste0(source.dir, "assoc_mapping.R"))
 
@@ -38,13 +38,13 @@ fig.dir    = args[5]
 chunk_size   = as.numeric(args[6])
 chunk_number = as.numeric(args[7])
 
-data.file  = "/hpcdata/gac/derived/Attie_DO_Liver_Metabolomics/qtl2_input/attie_liver_lipids_qtl2_input.Rdata"
-qtl.file   = "/hpcdata/gac/projects/Attie_DO_Liver_Metabolomics/QTL/Liver/lipids_norm_jax/liver_lipids_jax_norm_all_qtl.rds"
-sum.file   = "/hpcdata/gac/projects/Attie_DO_Liver_Metabolomics/QTL/Liver/lipids_norm_jax/liver_lipids_jax_norm_qtl_summary_thresh_6.csv"
-output.dir = "/hpcdata/gac/projects/Attie_DO_Liver_Metabolomics/QTL/Liver/lipids_norm_jax/"
-fig.dir    = "/hpcdata/gac/projects/Attie_DO_Liver_Metabolomics/figures/QTL/liver_lipids_norm_jax/"
-chunk_size = 10
-chunk_number = 1
+#data.file  = "/hpcdata/gac/derived/Attie_DO_Metabolomics/qtl2_input/attie_liver_lipids_qtl2_input.Rdata"
+#qtl.file   = "/hpcdata/gac/projects/Attie_DO_Metabolomics/QTL/Liver/lipids_norm_jax/liver_lipids_jax_norm_all_qtl.rds"
+#sum.file   = "/hpcdata/gac/projects/Attie_DO_Metabolomics/QTL/Liver/lipids_norm_jax/liver_lipids_jax_norm_qtl_summary_thresh_6.csv"
+#output.dir = "/hpcdata/gac/projects/Attie_DO_Metabolomics/QTL/Liver/lipids_norm_jax/"
+#fig.dir    = "/hpcdata/gac/projects/Attie_DO_Metabolomics/figures/QTL/liver_lipids_norm_jax/"
+#chunk_size = 10
+#chunk_number = 1
 
 ################################
 # Load in the qtl2 input data. #
