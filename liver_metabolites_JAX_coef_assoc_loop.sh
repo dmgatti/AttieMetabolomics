@@ -18,6 +18,7 @@ SIZE=20
 # 376 rows in liver_metabolites_jax_norm_qtl_summary_thresh_6.csv
 for i in {1..19}
 do
+  echo $i
   qsub -v DATAFILE=${DF},LODFILE=${LF},QTLFILE=${QF},OUTDIR=${OD},FIGDIR=${FD},CHUNKSIZE=${SIZE},CHUNKNUM=${i} qtl2_coef_assoc_engine.sh
   sleep 30s
 done
