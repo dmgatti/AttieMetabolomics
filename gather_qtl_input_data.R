@@ -754,15 +754,11 @@ rm(pheno, pheno.rz, pheno.descr, genoprobs, K, map)
 
 
 #########################################################################
-# Liver Proteins: JAX normalization: sex, generation and batch covar.
+# Islet Proteins: JAX normalization: sex, generation and batch covar.
 
 # Load in the phenotypes.
-pheno = readRDS(paste0(pheno.dir, "attie_liver_metabolites_normalized.rds"))
+pheno = readRDS(paste0(pheno.dir, "attie_islet_proteins_normalized.rds"))
 rownames(pheno) = pheno$Mouse.ID
-
-
-stop("CHANGE OVER TO JAX NORMALIZED PROTEINS")
-
 
 # Create data dictionary.
 num.covar.columns = 13
@@ -771,7 +767,7 @@ pheno.descr = data.frame(
               name = colnames(pheno),
               short_name = colnames(pheno),
               description = colnames(pheno),
-              category = c(rep(NA, num.covar.columns), rep("metabolites", num.pheno.columns)),
+              category = c(rep(NA, num.covar.columns), rep("proteins", num.pheno.columns)),
               is_numeric = c(rep(FALSE, num.covar.columns), rep(TRUE, num.pheno.columns)),
               omit = c(rep(TRUE, num.covar.columns), rep(FALSE, num.pheno.columns)),
               units = c(rep(NA, num.covar.columns), rep("intensity", num.pheno.columns)),
@@ -783,7 +779,7 @@ pheno.descr = data.frame(
               )
 
 # Load in Z-score phenotypes.
-pheno.rz = readRDS(paste0(pheno.dir, "attie_liver_metabolites_zscore_normalized.rds"))
+pheno.rz = readRDS(paste0(pheno.dir, "attie_islet_proteins_zscore_normalized.rds"))
 
 # Load in genoprobs.
 h5filename = paste0(probs.dir, "GigaMUGA_hap_probs_v2.h5")
@@ -828,8 +824,8 @@ rm(probs)
 K = calc_kinship(probs = genoprobs, type = "loco", quiet = FALSE, cores = 4)
 
 # Save to *.Rdata file.
-save(pheno, pheno.rz, pheno.descr, genoprobs, K, map, file = paste0(out.dir, 
-     "attie_liver_metabolites_qtl2_input.Rdata"))
+save(pheno, pheno.rz, pheno.descr, genoprobs, K, map, markers, file = paste0(out.dir, 
+     "attie_islet_proteins_qtl2_input.Rdata"))
 
 rm(pheno, pheno.rz, pheno.descr, genoprobs, K, map)
 

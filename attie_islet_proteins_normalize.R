@@ -43,7 +43,7 @@ dim(data)
 # Make a PCA plot of all of the data, with sample labels.
 pc.data = pca(log(data), method = "bpca", nPcs = 5)
 pdf("figures/islet_proteins_unnormalized_all_data_PCA.pdf")
-batch.colors = as.numeric(factor(annot$Injection_batch))
+batch.colors = as.numeric(factor(annot$Batch))
 plot(scores(pc.data), pch = 16, col = 0, main = "Un-normalized Metabolites, Colored by Batch")
 text(scores(pc.data)[,1], scores(pc.data)[,2], labels = rownames(data), 
      col = batch.colors)
@@ -76,7 +76,7 @@ plot(scores(pc.data), pch = 16, col = as.numeric(sex),
      main = "Un-normalized Metabolites Colored by Sex")
 legend("topright", legend = levels(sex), pch = 16, col = 1:length(levels(sex)))
 
-batch = factor(annot$Injection_batch)
+batch = factor(annot$Batch)
 batch.colors = rainbow(length(levels(batch)) - 1)[batch]
 plot(scores(pc.data), pch = 16, col = batch.colors,
      main = "Un-normalized Metabolites Colored by Batch")
@@ -103,7 +103,7 @@ dev.off()
 
 # Set up batch and model for comBat.
 mod = model.matrix(~sex, data = annot)[,-3]
-batch = annot$Injection_batch
+batch = annot$Batch
 
 chg = 1e6
 iter = 1
@@ -126,8 +126,8 @@ repeat( {
   chg = sum((data.compl[miss] - data.cb[miss])^2)
   print(paste("   SS Change:", chg))
 
-  # Put the missing data back in an impute again.
-  if(chg > 10 & iter < 20) {
+  # Put the missing data back in and impute again.
+  if(chg > 5 & iter < 20) {
 
     data.cb[miss] = NA
     data.log = data.cb
@@ -166,11 +166,13 @@ annot = annot[match(rownames(data.log), annot$Mouse.ID),]
 # Merge in the Chr M and Y info.
 attie_MY = read_csv(paste0(input.dir, "attie_sample_info_ChrM_Y.csv"))
 annot = right_join(annot, attie_MY, by = "Mouse.ID")
-annot = annot[,c(1:10, 13:15)]
+annot = annot[,c(1:10, 12:14)]
 colnames(annot) = sub("\\.x", "", colnames(annot))
 
 data.log = data.frame(Mouse.ID = rownames(data.log), data.log)
+data.log = data.log[,colnames(data.log) != "Mouse.ID.1"]
 data.out = right_join(annot, data.log, by = "Mouse.ID")
+data.out = data.out[,colnames(data.out) != "Mouse.ID.1"]
 
 saveRDS(data.out, file = paste0(output.dir, "attie_islet_proteins_normalized.rds"))
 
@@ -190,7 +192,7 @@ saveRDS(data.rz, file = paste0(output.dir, "attie_islet_proteins_zscore_normaliz
 
 
 # Make PCA plots of the normalized data, colored by batch, sex, etc.
-pdf("figures/metabolites_normalized_PCA.pdf", width = 12, height = 7)
+pdf("figures/islet_proteins_normalized_PCA.pdf", width = 12, height = 7)
 
 pc.data = pca(as.matrix(data.out[,-(1:13)]), method = "bpca", nPcs = 5)
 
@@ -204,7 +206,7 @@ plot(scores(pc.data)[,3:2], pch = 16, col = as.numeric(sex),
 legend("bottomleft", legend = levels(sex), pch = 16, col = 1:length(levels(sex)))
 
 layout(matrix(1:2, 1, 2))
-batch = factor(data.out$Injection_batch)
+batch = factor(data.out$Batch)
 batch.colors = rainbow(length(levels(batch)))[batch]
 plot(scores(pc.data), pch = 16, col = batch.colors,
      main = "Normalized Metabolites Colored by Batch")
@@ -252,12 +254,12 @@ dev.off()
 annot = data.out[,1:13]
 data  = as.matrix(data.out[,-(1:13)])
 
-pdf("figures/metabolites_normalized_boxplot.pdf", width = 12, height = 7)
+pdf("figures/islet_proteins_normalized_boxplot.pdf", width = 12, height = 7)
 boxplot(data, range = 0)
 dev.off()
 
-pdf("figures/metabolites_normalized_heatmap.pdf", width = 12, height = 12)
-batch.colors = rainbow(12)[as.numeric(factor(annot$Injection_batch))]
+pdf("figures/islet_proteins_normalized_heatmap.pdf", width = 12, height = 12)
+batch.colors = rainbow(12)[as.numeric(factor(annot$Batch))]
 heatmap(data, RowSideColors = batch.colors)
 dev.off()
 
@@ -298,7 +300,7 @@ plot(scores(pc.data)[,3:2], pch = 16, col = as.numeric(sex),
 legend("bottomleft", legend = levels(sex), pch = 16, col = 1:length(levels(sex)))
 
 layout(matrix(1:2, 1, 2))
-batch = factor(annot.wisc$Injection_batch)
+batch = factor(annot.wisc$Batch)
 plot(scores(pc.data), pch = 16, col = as.numeric(batch),
      main = "U. Wisc. Normalized Metabolites Colored by Batch")
 legend("bottomleft", legend = levels(batch), pch = 16, col = 1:length(levels(batch)),
@@ -337,7 +339,7 @@ boxplot(norm, range = 0)
 dev.off()
 
 pdf("figures/metabolites_UWisc_normalized_heatmap.pdf", width = 12, height = 12)
-batch.colors = rainbow(12)[as.numeric(factor(annot.wisc$Injection_batch))]
+batch.colors = rainbow(12)[as.numeric(factor(annot.wisc$Batch))]
 heatmap(norm, RowSideColors = batch.colors)
 dev.off()
 
