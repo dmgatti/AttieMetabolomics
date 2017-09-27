@@ -59,38 +59,39 @@ rownames(pheno.cecum.lipid) = pheno.cecum.lipid$Mouse.ID
 rownames(pheno.plasma.lipid) = pheno.plasma.lipid$Mouse.ID
 rownames(pheno.islet.protein) = pheno.islet.protein$Mouse.ID
 
-# Get the common subset of samples.
+# Get the union of samples in the phenotypes.
 samples = rownames(probs)
-samples = intersect(samples, pheno.liver.metab$Mouse.ID)
-samples = intersect(samples, pheno.liver.lipid$Mouse.ID)
-samples = intersect(samples, pheno.cecum.lipid$Mouse.ID)
-samples = intersect(samples, pheno.plasma.lipid$Mouse.ID)
-samples = intersect(samples, pheno.islet.protein$Mouse.ID)
+samples = union(samples, pheno.liver.metab$Mouse.ID)
+samples = union(samples, pheno.liver.lipid$Mouse.ID)
+samples = union(samples, pheno.cecum.lipid$Mouse.ID)
+samples = union(samples, pheno.plasma.lipid$Mouse.ID)
+samples = union(samples, pheno.islet.protein$Mouse.ID)
+samples = intersect(samples, rownames(probs))
 samples = sort(samples)
 
-# 366 samples
+# 483 samples in union.
 length(samples)
 
 # Subset all data to contain the same samples.
 probs = probs[samples,,]
-pheno.liver.metab = pheno.liver.metab[samples,]
-pheno.liver.lipid = pheno.liver.lipid[samples,]
-pheno.cecum.lipid = pheno.cecum.lipid[samples,]
-pheno.plasma.lipid = pheno.plasma.lipid[samples,]
-pheno.islet.protein = pheno.islet.protein[samples,]
+pheno.liver.metab = pheno.liver.metab[rownames(pheno.liver.metab) %in% samples,]
+pheno.liver.lipid = pheno.liver.lipid[rownames(pheno.liver.lipid) %in% samples,]
+pheno.cecum.lipid = pheno.cecum.lipid[rownames(pheno.cecum.lipid) %in% samples,]
+pheno.plasma.lipid = pheno.plasma.lipid[rownames(pheno.plasma.lipid) %in% samples,]
+pheno.islet.protein = pheno.islet.protein[rownames(pheno.islet.protein) %in% samples,]
 
-stopifnot(rownames(probs) == rownames(pheno.liver.metab))
-stopifnot(rownames(probs) == rownames(pheno.liver.lipid))
-stopifnot(rownames(probs) == rownames(pheno.cecum.lipid))
-stopifnot(rownames(probs) == rownames(pheno.plasma.lipid))
-stopifnot(rownames(probs) == rownames(pheno.islet.protein))
+stopifnot(rownames(pheno.liver.metab) %in% rownames(probs))
+stopifnot(rownames(pheno.liver.lipid) %in% rownames(probs))
+stopifnot(rownames(pheno.cecum.lipid) %in% rownames(probs))
+stopifnot(rownames(pheno.plasma.lipid) %in% rownames(probs))
+stopifnot(rownames(pheno.islet.protein) %in% rownames(probs))
 
 # Make covariates (sex, gen & batch).
 covar.liver.metab = model.matrix(~sex + wave + Batch, data = pheno.liver.metab)[,-1]
 covar.liver.lipid = model.matrix(~sex + wave + Batch, data = pheno.liver.lipid)[,-1]
 covar.cecum.lipid = model.matrix(~sex + wave + Batch, data = pheno.cecum.lipid)[,-1]
 covar.plasma.lipid = model.matrix(~sex + wave + Batch, data = pheno.plasma.lipid)[,-1]
-covar.islet.protien = model.matrix(~sex + wave + Batch, data = pheno.islet.protien)[,-1]
+covar.islet.protein = model.matrix(~sex + wave + Batch, data = pheno.islet.protein)[,-1]
 
 # Subset the phenotypes to only include numeric data and convert them to matrices.
 pheno.liver.metab = as.matrix(pheno.liver.metab[,-(1:13)])
@@ -134,8 +135,9 @@ stopifnot(rownames(pheno.plasma.lipid) == rownames(covar.plasma.lipid))
 stopifnot(rownames(pheno.islet.protein) == rownames(covar.islet.protein))
 stopifnot(rownames(pheno.liver.metab) == rownames(genoprobs[[1]]))
 for(chr in 1:length(K)) {
-  stopifnot(rownames(pheno.liver.metab) == rownames(K[[chr]]))
-  stopifnot(rownames(map)[[chr]] == dimnames(genoprobs[[chr]])[[3]])
+  stopifnot(rownames(pheno.liver.metab) %in% rownames(K[[chr]]))
+  stopifnot(rownames(map)[[chr]] %in% dimnames(genoprobs[[chr]])[[3]])
+  stopifnot(rownames(K[[chr]]) == rownames(genoprobs[[chr]])[[3]])
 } # for(chr)
 
 dim(pheno.liver.metab)
@@ -146,6 +148,14 @@ dim(pheno.islet.protein)
 
 # Save the data.
 save(pheno.liver.metab, pheno.liver.lipid, pheno.cecum.lipid, pheno.plasma.lipid,
-     covar.liver.metab, covar.liver.lipid, covar.cecum.lipid, covar.plasma.lipid,
+     pheno.islet.protein, covar.liver.metab, covar.liver.lipid, covar.cecum.lipid, 
+     covar.plasma.lipid, covar.islet.protein,
      genoprobs, K, markers, map, file = paste0(output.dir, "attie_all_mass_spec_qtl2_input.Rdata"))
+
+# Run a test scan.
+qtl = scan1(genoprobs = genoprobs, pheno = pheno.islet.protein[,1,drop = FALSE],
+            kinship = K, addcovar = covar.islet.protein, cores = 4)
+
+plot(qtl, map)
+
 
