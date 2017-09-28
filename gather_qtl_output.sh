@@ -1,6 +1,6 @@
 #!/bin/bash -l
 #PBS -q short -l nodes=1:ppn=1,walltime=3:59:00
-module load R/3.3.2
+module load R/3.4.1
 
 # For each chromosome, harvest the maximum peak per analyte.
 
@@ -66,3 +66,10 @@ INPUTDIR=/hpcdata/gac/projects/Attie_DO_Metabolomics/QTL/Cecum/lipids_norm_jax/
 OUTPUTPREFIX=/hpcdata/gac/projects/Attie_DO_Metabolomics/QTL/Cecum/lipids_norm_jax/cecum_lipids_jax_norm
 FIGDIR=/hpcdata/gac/projects/Attie_DO_Metabolomics/figures/QTL/cecum_lipids_norm_jax/
 R --no-save --args ${INPUTDIR} ${OUTPUTPREFIX} ${FIGDIR} < gather_qtl_output.R > gather_qtl_cecum_lipids_jax.Rout
+
+# JAX normalized islet proteins. (NOTE: Place a / at the end of the paths)
+INPUTDIR=/hpcdata/gac/projects/Attie_DO_Metabolomics/QTL/Islet/proteins/
+OUTPUTPREFIX=/hpcdata/gac/projects/Attie_DO_Metabolomics/QTL/Islet/proteins/islet_proteins_jax_norm
+FIGDIR=/hpcdata/gac/projects/Attie_DO_Metabolomics/figures/QTL/islet_proteins/
+R --no-save --args ${INPUTDIR} ${OUTPUTPREFIX} ${FIGDIR} < gather_qtl_output.R > gather_qtl_islet_proteins_jax.Rout
+

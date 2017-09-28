@@ -1,6 +1,6 @@
 #!/bin/bash -l
 #PBS -q short -l nodes=1:ppn=1,walltime=3:59:00
-module load R/3.3.2
+module load R/3.4.1
 
 # For each chromosome, harvest the maximum peak above a given threshold for each analyte.
 # Run this AFTER the harvest_max_qtl.R script because it creates the aggregated QTL file.
@@ -61,3 +61,9 @@ R --no-save --args ${INPUTFILE} ${OUTPUTPREFIX} ${THR} < harvest_thr_qtl.R > har
 INPUTFILE=/hpcdata/gac/projects/Attie_DO_Metabolomics/QTL/Cecum/lipids_norm_jax/cecum_lipids_jax_norm_all_qtl.rds
 OUTPUTPREFIX=/hpcdata/gac/projects/Attie_DO_Metabolomics/QTL/Cecum/lipids_norm_jax/cecum_lipids_jax_norm
 R --no-save --args ${INPUTFILE} ${OUTPUTPREFIX} ${THR} < harvest_thr_qtl.R > harvest_qtl_cecum_lipids_jax.Rout
+
+
+# JAX normalized islet proteins. (NOTE: Place a / at the end of the paths)
+INPUTFILE=/hpcdata/gac/projects/Attie_DO_Metabolomics/QTL/Islet/proteins/islet_proteins_jax_norm_all_qtl.rds
+OUTPUTPREFIX=/hpcdata/gac/projects/Attie_DO_Metabolomics/QTL/Islet/proteins/islet_proteins_jax_norm
+R --no-save --args ${INPUTFILE} ${OUTPUTPREFIX} ${THR} < harvest_thr_qtl.R > harvest_qtl_islet_proteins_jax.Rout

@@ -1,7 +1,7 @@
 cd /hpcdata/gac/projects/Attie_DO_Metabolomics/scripts
 
 INPUT=/hpcdata/gac/derived/Attie_DO_Metabolomics/qtl2_input/attie_islet_proteins_qtl2_input.Rdata
-OUTPUT=/hpcdata/gac/projects/Attie_DO_Metabolomics/QTL/Islet/proteins
+OUTPUT=/hpcdata/gac/projects/Attie_DO_Metabolomics/QTL/Islet/proteins/
 SIZE=20
 
 # Set the maximum number in the loop to ceiling(MAXCOL/SIZE).
