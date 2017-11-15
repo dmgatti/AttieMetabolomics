@@ -39,7 +39,7 @@ col = rep(c("grey50", "black"), 10)
 # Add genome Mb to data.
 data = data.frame(data, gmb = data$pos + chrsum.mb[data$chr])
 
-png(output.file, width = 1000, height = 800, res = 128)
+png(output.file, width = 1200, height = 800, res = 128)
 
 ggplot(data, aes(x = pos)) +
   geom_histogram(binwidth = 2) +

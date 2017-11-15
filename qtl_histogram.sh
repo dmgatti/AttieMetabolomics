@@ -1,5 +1,5 @@
 #!/bin/bash -l
-module load R/3.3.2
+module load R/3.4.1
 
 # Arguments:
 # input.file: full path to the *.rds qtl summary file.
@@ -36,4 +36,11 @@ INFILE=${BASEDIR}QTL/Cecum/lipids_norm_jax/cecum_lipids_jax_norm_qtl_summary_thr
 OUTFILE=${BASEDIR}figures/QTL/cecum_lipids_norm_jax/cecum_lipids_jax_norm_qtl_histogram.png
 
 R --no-save --args ${INFILE} ${OUTFILE} < qtl_histogram.R > qtl_histogram_cecum_lipids.Rout
+
+##########
+# Islet Proteins: JAX: sex, gen & batch
+INFILE=${BASEDIR}QTL/Islet/proteins/islet_proteins_jax_norm_qtl_summary_thresh_6.csv
+OUTFILE=${BASEDIR}figures/QTL/islet_proteins/islet_proteins_jax_norm_qtl_histogram.png
+
+R --no-save --args ${INFILE} ${OUTFILE} < qtl_histogram.R > qtl_histogram_islet_proteins.Rout
 
