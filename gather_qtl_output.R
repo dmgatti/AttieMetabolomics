@@ -16,9 +16,9 @@ library(tidyverse)
 # 3: full path to figure directory.
 args = commandArgs(trailingOnly = TRUE)
 
-input.dir   = args[1]
+input.dir     = args[1]
 output.prefix = args[2]
-fig.dir     = args[3]
+fig.dir       = args[3]
 
 print(paste("INPUT DIR =", input.dir))
 print(paste("OUTPUT PREFIX =", output.prefix))
@@ -28,10 +28,8 @@ print(paste("FIGURE DIR =", fig.dir))
 qtl.files = dir(path = input.dir, pattern = "_QTL.rds$", full.names = T)
 
 # Read in the marker map and subset to include the markers we used.
-load(url("ftp://ftp.jax.org/MUGA/GM_snps.Rdata"))
-qtl = readRDS(qtl.files[1])
-GM_snps = GM_snps[rownames(qtl),1:4]
-map = map_df_to_list(map = GM_snps, pos_column = "pos")
+markers = readRDS("/hpcdata/gac/derived/CGD_DO_Genoprobs/marker_grid_0.02cM.rds")
+map = map_df_to_list(map = markers, pos_column = "pos")
 
 qtl.mat = NULL
 

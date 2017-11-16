@@ -24,18 +24,33 @@ OUTFILE=${BASEDIR}figures/QTL/liver_metabolites_norm_jax/liver_metabolites_jax_n
 R --no-save --args ${INFILE} ${OUTFILE} < qtl_histogram.R > qtl_histogram_liver_metabolites.Rout
 
 ##########
-# Plasma metabolites: JAX: sex, gen & batch
+# Plasma lipids: JAX: sex, gen & batch
 INFILE=${BASEDIR}QTL/Plasma/lipids_norm_jax/plasma_lipids_jax_norm_qtl_summary_thresh_6.csv
 OUTFILE=${BASEDIR}figures/QTL/plasma_lipids_norm_jax/plasma_lipids_jax_norm_qtl_histogram.png
 
 R --no-save --args ${INFILE} ${OUTFILE} < qtl_histogram.R > qtl_histogram_plasma_lipids.Rout
 
 ##########
-# Cecum metabolites: JAX: sex, gen & batch
+# Plasma metabolites: JAX: sex, gen & batch
+INFILE=${BASEDIR}QTL/Plasma/metabolites/plasma_metabolites_qtl_summary_thresh_6.csv
+OUTFILE=${BASEDIR}figures/QTL/plasma_metabolites/plasma_metabolites_jax_norm_qtl_histogram.png
+
+R --no-save --args ${INFILE} ${OUTFILE} < qtl_histogram.R > qtl_histogram_plasma_metabolites.Rout
+
+##########
+# Cecum lipids: JAX: sex, gen & batch
 INFILE=${BASEDIR}QTL/Cecum/lipids_norm_jax/cecum_lipids_jax_norm_qtl_summary_thresh_6.csv
 OUTFILE=${BASEDIR}figures/QTL/cecum_lipids_norm_jax/cecum_lipids_jax_norm_qtl_histogram.png
 
 R --no-save --args ${INFILE} ${OUTFILE} < qtl_histogram.R > qtl_histogram_cecum_lipids.Rout
+
+##########
+# Cecum metabolites: JAX: sex, gen & batch
+INFILE=${BASEDIR}QTL/Cecum/metabolites/cecum_metabolites_qtl_summary_thresh_6.csv
+OUTFILE=${BASEDIR}figures/QTL/cecum_metabolites/cecum_metabolites_jax_norm_qtl_histogram.png
+
+R --no-save --args ${INFILE} ${OUTFILE} < qtl_histogram.R > qtl_histogram_plasma_metabolites.Rout
+
 
 ##########
 # Islet Proteins: JAX: sex, gen & batch

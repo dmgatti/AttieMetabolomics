@@ -23,7 +23,7 @@ data$chr = factor(data$chr, levels = c(1:19, "X"))
 
 # Load in markers.
 load(url("ftp://ftp.jax.org/MUGA/GM_snps.Rdata"))
-markers = GM_snps[, 1:4]
+markers = readRDS("/hpcdata/gac/derived/CGD_DO_Genoprobs/marker_grid_0.02cM.rds")
 markers[,2] = factor(markers[,2], levels = c(1:19, "X"))
 
 map = split(markers[,3], markers[,2])

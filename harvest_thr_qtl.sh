@@ -57,10 +57,22 @@ OUTPUTPREFIX=/hpcdata/gac/projects/Attie_DO_Metabolomics/QTL/Plasma/lipids_norm_
 R --no-save --args ${INPUTFILE} ${OUTPUTPREFIX} ${THR} < harvest_thr_qtl.R > harvest_qtl_plasma_lipids_uwisc.Rout
 
 
+# JAX normalized plasma metabolites. (NOTE: Place a / at the end of the paths)
+INPUTFILE=/hpcdata/gac/projects/Attie_DO_Metabolomics/QTL/Plasma/metabolites/plasma_metabolites_all_qtl.rds
+OUTPUTPREFIX=/hpcdata/gac/projects/Attie_DO_Metabolomics/QTL/Plasma/metabolites/plasma_metabolites
+R --no-save --args ${INPUTFILE} ${OUTPUTPREFIX} ${THR} < harvest_thr_qtl.R > harvest_qtl_plasma_metabolites.Rout
+
+
 # JAX normalized cecum lipids. (NOTE: Place a / at the end of the paths)
 INPUTFILE=/hpcdata/gac/projects/Attie_DO_Metabolomics/QTL/Cecum/lipids_norm_jax/cecum_lipids_jax_norm_all_qtl.rds
 OUTPUTPREFIX=/hpcdata/gac/projects/Attie_DO_Metabolomics/QTL/Cecum/lipids_norm_jax/cecum_lipids_jax_norm
 R --no-save --args ${INPUTFILE} ${OUTPUTPREFIX} ${THR} < harvest_thr_qtl.R > harvest_qtl_cecum_lipids_jax.Rout
+
+
+# JAX normalized cecum  metabolites. (NOTE: Place a / at the end of the paths)
+INPUTFILE=/hpcdata/gac/projects/Attie_DO_Metabolomics/QTL/Cecum/metabolites/cecum_metabolites_all_qtl.rds
+OUTPUTPREFIX=/hpcdata/gac/projects/Attie_DO_Metabolomics/QTL/Cecum/metabolites/cecum_metabolites
+R --no-save --args ${INPUTFILE} ${OUTPUTPREFIX} ${THR} < harvest_thr_qtl.R > harvest_qtl_cecum_metabolites.Rout
 
 
 # JAX normalized islet proteins. (NOTE: Place a / at the end of the paths)

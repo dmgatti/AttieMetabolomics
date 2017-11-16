@@ -83,6 +83,13 @@ OUTFILE=/hpcdata/gac/projects/Attie_DO_Metabolomics/figures/QTL/plasma_lipids_no
 R --no-save --args ${INFILE} ${OUTFILE} ${LODTHR} < qtl_heatmap.R > qtl_heatmap_known_plasma_lipids_jax_norm.Rout
 
 ##########
+# Plasma metabolites, JAX normalized, sex, gen & batch.
+INFILE=/hpcdata/gac/projects/Attie_DO_Metabolomics/QTL/Plasma/metabolites/plasma_metabolites_all_qtl.rds
+OUTFILE=/hpcdata/gac/projects/Attie_DO_Metabolomics/figures/QTL/plasma_metabolites/plasma_metabolites_qtl_heatmap.png
+
+R --no-save --args ${INFILE} ${OUTFILE} ${LODTHR} < qtl_heatmap.R > qtl_heatmap_plasma_metabolites_jax_norm.Rout
+
+##########
 # Plasma lipids, U. Wisc. normalized, sex, gen & batch.
 INFILE=/hpcdata/gac/projects/Attie_DO_Metabolomics/QTL/Plasma/lipids_norm_uwisc/plasma_lipids_uwisc_norm_all_qtl.rds
 OUTFILE=/hpcdata/gac/projects/Attie_DO_Metabolomics/figures/QTL/plasma_lipids_norm_uwisc/plasma_lipids_uwisc_qtl_heatmap.png
@@ -102,6 +109,13 @@ INFILE=/hpcdata/gac/projects/Attie_DO_Metabolomics/QTL/Cecum/lipids_norm_jax/cec
 OUTFILE=/hpcdata/gac/projects/Attie_DO_Metabolomics/figures/QTL/cecum_lipids_norm_jax/cecum_lipids_jax_qtl_heatmap.png
 
 R --no-save --args ${INFILE} ${OUTFILE} ${LODTHR} < qtl_heatmap.R > qtl_heatmap_cecum_lipids_jax_norm.Rout
+
+##########
+# Cecum metabolites, JAX normalized, sex, gen & batch.
+INFILE=/hpcdata/gac/projects/Attie_DO_Metabolomics/QTL/Cecum/metabolites/cecum_metabolites_all_qtl.rds
+OUTFILE=/hpcdata/gac/projects/Attie_DO_Metabolomics/figures/QTL/cecum_metabolites/cecum_metabolites_qtl_heatmap.png
+
+R --no-save --args ${INFILE} ${OUTFILE} ${LODTHR} < qtl_heatmap.R > qtl_heatmap_cecum_metabolites.Rout
 
 ##########
 # Islet proteins, JAX normalized, sex, gen & batch.

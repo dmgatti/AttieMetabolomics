@@ -24,8 +24,8 @@ print(paste("LOD.THR =", lod.thr))
 
 # Load in the data.
 lod = readRDS(input.file)
-load(url("ftp://ftp.jax.org/MUGA/GM_snps.Rdata"))
-markers = GM_snps[rownames(lod),1:4]
+markers = readRDS("/hpcdata/gac/derived/CGD_DO_Genoprobs/marker_grid_0.02cM.rds")
+markers[,2] = factor(markers[,2], levels = c(1:19, "X"))
 
 # Get Chr lengths and midpoints.
 map = split(markers[,3], markers[,2])
