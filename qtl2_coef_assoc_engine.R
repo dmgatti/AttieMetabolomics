@@ -10,13 +10,18 @@
 options(stringsAsFactors = F)
 library(qtl2)
 library(qtl2convert)
+library(qtl2db)
 library(RSQLite)
 library(dplyr)
+library(dbplyr)
 library(AnnotationHub)
+library(rtracklayer)
 
 source.dir = "/hpcdata/gac/projects/Attie_DO_Metabolomics/scripts/"
 
 source(paste0(source.dir, "assoc_mapping.R"))
+
+ensembl.file = "/hpcdata/gac/projects/Attie_DO_Metabolomics/Mus_musculus.GRCm38.90.gtf.rds"
 
 ###############################
 # Get command line arguments. #
@@ -68,11 +73,9 @@ qtl.summary = read.csv(sum.file)
 stopifnot(c("pheno", "pheno.descr", "genoprobs", "K", "map") %in% ls())
 
 #############################
-# Load in Gigamuga markers. #
+# Load in new 69K grid markers. #
 #############################
-load(url("ftp://ftp.jax.org/MUGA/GM_snps.Rdata"))
-marker.names = unlist(lapply(genoprobs, function(z) { dimnames(z)[[3]] }))
-markers = GM_snps[marker.names, 1:4]
+markers = readRDS("/hpcdata/gac/derived/CGD_DO_Genoprobs/marker_grid_0.02cM_plus.rds")
 map = map_df_to_list(markers,  pos_column = "pos")
 
 ######################
@@ -90,9 +93,19 @@ addcovar = model.matrix(f, data = pheno)[,-1]
 ##########################
 # Get the Ensembl genes. #
 ##########################
-hub = AnnotationHub()
-hub = AnnotationHub::query(hub, c("gtf", "mus musculus", "ensembl"))
-ensembl = hub[["AH51040"]]
+ensembl = NULL
+if(file.exists(ensembl.file)) {
+
+  ensembl = readRDS(ensembl.file)
+
+} else {
+
+  hub = AnnotationHub()
+  hub = AnnotationHub::query(hub, c("gtf", "mus musculus", "ensembl"))
+  ensembl = hub[[names(hub)[hub$title == "Mus_musculus.GRCm38.90.gtf"]]]
+  saveRDS(ensembl, file = ensembl.file)
+
+} # else
 
 #######################################################
 # Split out phenotypes and convert to numeric matrix. #
@@ -126,9 +139,11 @@ for(i in qtl.rng) {
   chr = qtl.info$chr
   pos = qtl.info$pos
 
+  print(paste(analyte, ": CHR", chr))
+
   # Founder allele effects.
-  coef = scan1coef(genoprobs = genoprobs[,chr], pheno = pheno[,analyte,drop = F],
-                   kinship = K[[chr]], addcovar = addcovar)
+  coef = scan1blup(genoprobs = genoprobs[,chr], pheno = pheno[,analyte,drop = F],
+                   kinship = K[[chr]], addcovar = addcovar, cores = 10)
   saveRDS(coef, file = paste0(output.dir, analyte, "_coef_chr", chr, ".rds"))
 
   png(paste0(fig.dir, analyte, "_coef_chr", chr, ".png"), width = 1000, height = 1000, res = 128)
@@ -145,7 +160,7 @@ for(i in qtl.rng) {
                 db.file = "/data/gac/resource/CCsnps/ccfoundersnps.sqlite", ncores = 4)
   save(assoc, file = paste0(output.dir, analyte, "_assoc_chr", chr, ".Rdata"))
 
-  png(paste0(fig.dir, analyte, "_assoc_chr", chr, ".png"), width = 3000, height = 2000, 
+  png(paste0(fig.dir, analyte, "_assoc_chr", chr, ".png"), width = 2000, height = 1600, 
              res = 128)
   assoc_plot(assoc = assoc[[1]], snpinfo = assoc[[2]], map = map, chr = chr, 
              start = start, end = end)

@@ -1,5 +1,5 @@
 #!/bin/bash -l
-#PBS -q short -l nodes=1:ppn=1,walltime=3:59:00
+#PBS -q short -l nodes=cadillac022:ppn=10,walltime=3:59:00
 module load R/3.4.1
 
 # For each chromosome, harvest the maximum peak per analyte.
@@ -66,7 +66,7 @@ R --no-save --args ${INPUTDIR} ${OUTPUTPREFIX} ${FIGDIR} < gather_qtl_output.R >
 INPUTDIR=/hpcdata/gac/projects/Attie_DO_Metabolomics/QTL/Plasma/metabolites/
 OUTPUTPREFIX=/hpcdata/gac/projects/Attie_DO_Metabolomics/QTL/Plasma/metabolites/plasma_metabolites
 FIGDIR=/hpcdata/gac/projects/Attie_DO_Metabolomics/figures/QTL/plasma_metabolites/
-R --no-save --args ${INPUTDIR} ${OUTPUTPREFIX} ${FIGDIR} < gather_qtl_output.R > gather_qtl_liver_metabolites_jax.Rout
+R --no-save --args ${INPUTDIR} ${OUTPUTPREFIX} ${FIGDIR} < gather_qtl_output.R > gather_qtl_plasma_metabolites_jax.Rout
 
 
 # JAX normalized cecum lipids. (NOTE: Place a / at the end of the paths)
@@ -80,7 +80,7 @@ R --no-save --args ${INPUTDIR} ${OUTPUTPREFIX} ${FIGDIR} < gather_qtl_output.R >
 INPUTDIR=/hpcdata/gac/projects/Attie_DO_Metabolomics/QTL/Cecum/metabolites/
 OUTPUTPREFIX=/hpcdata/gac/projects/Attie_DO_Metabolomics/QTL/Cecum/metabolites/cecum_metabolites
 FIGDIR=/hpcdata/gac/projects/Attie_DO_Metabolomics/figures/QTL/cecum_metabolites/
-R --no-save --args ${INPUTDIR} ${OUTPUTPREFIX} ${FIGDIR} < gather_qtl_output.R > gather_qtl_liver_metabolites_jax.Rout
+R --no-save --args ${INPUTDIR} ${OUTPUTPREFIX} ${FIGDIR} < gather_qtl_output.R > gather_qtl_cecum_metabolites_jax.Rout
 
 
 # JAX normalized islet proteins. (NOTE: Place a / at the end of the paths)

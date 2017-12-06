@@ -86,12 +86,14 @@ get_genes = function(chr, start, end) {
 assoc_plot = function(assoc, snpinfo, map, chr, start, end) {
 
   genes = get_genes(chr, start, end)
+  genes$start = genes$start * 1e-6
+  genes$stop  = genes$stop  * 1e-6
 
   layout(matrix(1:3, 3, 1), heights = c(0.2, 0.3, 0.5))
   par(plt = c(0.08, 0.99, 0, 0.9))
   sdp_plot(scan1output = assoc, snpinfo = snpinfo, thr = max(assoc[,1]) - 1)
   par(plt = c(0.08, 0.99, 0, 1.0))
-  plot_snpasso(scan1output = assoc, snpinfo = snpinfo, drop.hilit = 1, 
+  plot_snpasso(scan1output = assoc, snpinfo = snpinfo, drop_hilit = 1, 
                xaxt = "n")
   par(plt = c(0.08, 0.99, 0.12, 1))
   plot_genes(genes = genes, xlim = c(start, end), colors = "black")

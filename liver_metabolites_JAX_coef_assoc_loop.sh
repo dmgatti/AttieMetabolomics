@@ -15,8 +15,8 @@ SIZE=20
 
 
 # Set the maximum number in the loop to ceiling(number of rows in QTL summary/SIZE).
-# 376 rows in liver_metabolites_jax_norm_qtl_summary_thresh_6.csv
-for i in {1..19}
+# 332 rows in liver_metabolites_jax_norm_qtl_summary_thresh_6.csv
+for i in {1..17}
 do
   echo $i
   qsub -v DATAFILE=${DF},LODFILE=${LF},QTLFILE=${QF},OUTDIR=${OD},FIGDIR=${FD},CHUNKSIZE=${SIZE},CHUNKNUM=${i} qtl2_coef_assoc_engine.sh

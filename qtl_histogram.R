@@ -43,7 +43,8 @@ png(output.file, width = 1200, height = 800, res = 128)
 
 ggplot(data, aes(x = pos)) +
   geom_histogram(binwidth = 2) +
-  facet_grid(~chr) + 
-  theme(panel.spacing.x = unit(0.1, "lines"))
+  facet_grid(~chr, scales = "free_x", space = "free_x", shrink = TRUE) + 
+  theme(panel.spacing.x = unit(0.1, "lines"),
+        axis.text.x = element_text(angle = 90, hjust = 1))
 
 dev.off()
