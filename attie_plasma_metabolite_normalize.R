@@ -26,7 +26,8 @@ colnames(annot) = sub("_", ".", colnames(annot))
 # Merge the sample annotation and data.
 metab = right_join(annot, metab, by = "Mouse.ID")
 
-metab = metab[,-(2:6)]
+metab = metab[,-grep("\\.x$", colnames(metab))]
+metab = metab[,colnames(metab) != "wave"]
 colnames(metab) = sub("\\.y$", "", colnames(metab))
 
 # Split up the sample annotation from the data and convert the data into a 
@@ -40,7 +41,7 @@ annot$batch  = factor(annot$batch)
 dim(data)
 
 # Make a PCA plot of all of the data, with sample labels.
-pc.data = pca(log(data), method = "bpca", nPcs = 20)
+pc.data = pca(log(data), method = "bpca", nPcs = 10)
 pdf("figures/plasma_metabolites_unnormalized_all_data_PCA.pdf")
 batch.colors = as.numeric(factor(annot$batch))
 plot(scores(pc.data), pch = 16, col = 0, main = "Un-normalized Plasma Metabolites, Colored by Batch")
@@ -98,7 +99,9 @@ dev.off()
 
 # Set up batch and model for comBat.
 # Note, can't add wave because it's condounded by batch.
-mod = model.matrix(~sex, data = annot)[,-1]
+annot$sex  = factor(annot$sex)
+annot$wave = factor(annot$wave)
+mod = model.matrix(~sex, data = annot)
 batch = annot$batch
 
 chg = 1e6
@@ -145,10 +148,12 @@ prop.missing = rowMeans(is.na(data))
 attie_MY = read_csv(paste0(input.dir, "attie_sample_info_ChrM_Y.csv"))
 attie_MY$Mouse.ID = sub("^DO-", "DO", attie_MY$Mouse.ID)
 annot = right_join(annot, attie_MY, by = "Mouse.ID")
+colnames(annot) = sub("\\.x$", "", colnames(annot))
 annot = annot[,-grep("\\.y$", colnames(annot))]
 
 data.log = data.frame(Mouse.ID = rownames(data.log), data.log)
 data.out = right_join(annot, data.log, by = "Mouse.ID")
+rownames(data.out) = data.out$Mouse.ID
 
 saveRDS(data.out, file = paste0(output.dir, "attie_plasma_metabolites_normalized.rds"))
 

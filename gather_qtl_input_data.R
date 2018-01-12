@@ -35,10 +35,11 @@ rownames(pheno) = pheno$Mouse.ID
 pheno.descr = read.delim(paste0(pheno.dict.dir, "cecum_metabolites_pheno_dict.txt"))
 
 stopifnot(ncol(pheno) == nrow(pheno.descr))
-stopifnot(colnames(pheno) == pheno.descr$data_name)
+stopifnot(colnames(pheno) == pheno.descr$R_name)
 
 # Load in Z-score phenotypes.
 pheno.rz = readRDS(paste0(pheno.dir, "attie_cecum_metabolites_zscore_normalized.rds"))
+rownames(pheno.rz) = pheno.rz$Mouse.ID
 
 # Load in genoprobs.
 genoprobs = readRDS("/hpcdata/gac/derived/Attie_DO_Islet_RNASeq/genoprobs/attie_DO500_genoprobs_v3.rds")
@@ -62,13 +63,18 @@ pheno.rz$DOwave = factor(pheno.rz$DOwave)
 pheno.rz$batch  = factor(pheno.rz$batch)
 
 # Read in the marker data.
-markers = readRDS("/hpcdata/gac/derived/CGD_DO_Genoprobs/marker_grid_0.02cM.rds")
+markers = readRDS("/hpcdata/gac/derived/CGD_DO_Genoprobs/marker_grid_0.02cM_plus.rds")
 
 # Make marker map.
 map = map_df_to_list(map = markers[,1:4], pos_column = "pos")
 
 # Calculate kinship matrix.
 K = calc_kinship(probs = genoprobs, type = "loco", quiet = FALSE, cores = 4)
+
+stopifnot(ncol(pheno) == ncol(pheno.rz))
+stopifnot(ncol(pheno) == nrow(pheno.descr))
+stopifnot(nrow(pheno) == nrow(genoprobs[[1]]))
+stopifnot(sum(sapply(genoprobs, dim)[3,]) == sum(sapply(map, length)))
 
 # Save to *.Rdata file.
 save(pheno, pheno.rz, pheno.descr, genoprobs, K, map, file = paste0(out.dir, 
@@ -91,6 +97,7 @@ stopifnot(colnames(pheno) == pheno.descr$data_name)
 
 # Load in Z-score phenotypes.
 pheno.rz = readRDS(paste0(pheno.dir, "attie_liver_metabolites_zscore_normalized.rds"))
+rownames(pheno.rz) = pheno.rz$Mouse.ID
 
 # Load in genoprobs.
 genoprobs = readRDS("/hpcdata/gac/derived/Attie_DO_Islet_RNASeq/genoprobs/attie_DO500_genoprobs_v3.rds")
@@ -114,13 +121,18 @@ pheno.rz$DOwave = factor(pheno.rz$DOwave)
 pheno.rz$batch  = factor(pheno.rz$batch)
 
 # Read in the marker data.
-markers = readRDS("/hpcdata/gac/derived/CGD_DO_Genoprobs/marker_grid_0.02cM.rds")
+markers = readRDS("/hpcdata/gac/derived/CGD_DO_Genoprobs/marker_grid_0.02cM_plus.rds")
 
 # Make marker map.
 map = map_df_to_list(map = markers[,1:4], pos_column = "pos")
 
 # Calculate kinship matrix.
 K = calc_kinship(probs = genoprobs, type = "loco", quiet = FALSE, cores = 4)
+
+stopifnot(ncol(pheno) == ncol(pheno.rz))
+stopifnot(ncol(pheno) == nrow(pheno.descr))
+stopifnot(nrow(pheno) == nrow(genoprobs[[1]]))
+stopifnot(sum(sapply(genoprobs, dim)[3,]) == sum(sapply(map, length)))
 
 # Save to *.Rdata file.
 save(pheno, pheno.rz, pheno.descr, genoprobs, K, map, file = paste0(out.dir, 
@@ -143,6 +155,7 @@ stopifnot(colnames(pheno) == pheno.descr$data_name)
 
 # Load in Z-score phenotypes.
 pheno.rz = readRDS(paste0(pheno.dir, "attie_liver_metabolites_zscore_normalized.rds"))
+rownames(pheno.rz) = pheno.rz$Mouse.ID
 
 # Load in genoprobs.
 genoprobs = readRDS("/hpcdata/gac/derived/Attie_DO_Islet_RNASeq/genoprobs/attie_DO500_genoprobs_v3.rds")
@@ -166,7 +179,7 @@ pheno.rz$DOwave = factor(pheno.rz$DOwave)
 pheno.rz$batch  = factor(pheno.rz$batch)
 
 # Read in the marker data.
-markers = readRDS("/hpcdata/gac/derived/CGD_DO_Genoprobs/marker_grid_0.02cM.rds")
+markers = readRDS("/hpcdata/gac/derived/CGD_DO_Genoprobs/marker_grid_0.02cM_plus.rds")
 
 # Make marker map.
 map = map_df_to_list(map = markers[,1:4], pos_column = "pos")
@@ -189,8 +202,6 @@ rm(pheno, pheno.rz, pheno.descr, genoprobs, K, map)
 pheno = readRDS(paste0(pheno.dir, "attie_liver_lipids_normalized.rds"))
 pheno$Mouse.ID = sub("\\-|\\.", "", pheno$Mouse.ID)
 rownames(pheno) = pheno$Mouse.ID
-colnames(pheno) = sub("wave", "DOwave", colnames(pheno))
-colnames(pheno) = sub("Batch", "batch", colnames(pheno))
 
 pheno.descr = read.delim(paste0(pheno.dict.dir, "liver_lipids_pheno_dict.txt"))
 
@@ -201,7 +212,6 @@ stopifnot(colnames(pheno) == pheno.descr$data_name)
 pheno.rz = readRDS(paste0(pheno.dir, "attie_liver_lipids_zscore_normalized.rds"))
 pheno.rz$Mouse.ID = sub("\\-|\\.", "", pheno.rz$Mouse.ID)
 rownames(pheno.rz) = pheno.rz$Mouse.ID
-colnames(pheno.rz) = sub("wave", "DOwave", colnames(pheno.rz))
 colnames(pheno.rz) = sub("Batch", "batch", colnames(pheno.rz))
 
 # Load in genoprobs.
@@ -226,13 +236,18 @@ pheno.rz$DOwave = factor(pheno.rz$DOwave)
 pheno.rz$batch  = factor(pheno.rz$batch)
 
 # Read in the marker data.
-markers = readRDS("/hpcdata/gac/derived/CGD_DO_Genoprobs/marker_grid_0.02cM.rds")
+markers = readRDS("/hpcdata/gac/derived/CGD_DO_Genoprobs/marker_grid_0.02cM_plus.rds")
 
 # Make marker map.
 map = map_df_to_list(map = markers[,1:4], pos_column = "pos")
 
 # Calculate kinship matrix.
 K = calc_kinship(probs = genoprobs, type = "loco", quiet = FALSE, cores = 4)
+
+stopifnot(ncol(pheno) == ncol(pheno.rz))
+stopifnot(ncol(pheno) == nrow(pheno.descr))
+stopifnot(nrow(pheno) == nrow(genoprobs[[1]]))
+stopifnot(sum(sapply(genoprobs, dim)[3,]) == sum(sapply(map, length)))
 
 # Save to *.Rdata file.
 save(pheno, pheno.rz, pheno.descr, genoprobs, K, map, file = paste0(out.dir, 
@@ -248,8 +263,6 @@ rm(pheno, pheno.rz, pheno.descr, genoprobs, K, map)
 pheno = readRDS(paste0(pheno.dir, "attie_cecum_lipids_normalized.rds"))
 pheno$Mouse.ID = sub("\\-|\\.", "", pheno$Mouse.ID)
 rownames(pheno) = pheno$Mouse.ID
-colnames(pheno) = sub("wave", "DOwave", colnames(pheno))
-colnames(pheno) = sub("Batch", "batch", colnames(pheno))
 
 pheno.descr = read.delim(paste0(pheno.dict.dir, "cecum_lipids_pheno_dict.txt"))
 
@@ -260,8 +273,6 @@ stopifnot(colnames(pheno) == pheno.descr$data_name)
 pheno.rz = readRDS(paste0(pheno.dir, "attie_cecum_lipids_zscore_normalized.rds"))
 pheno.rz$Mouse.ID = sub("\\-|\\.", "", pheno.rz$Mouse.ID)
 rownames(pheno.rz) = pheno.rz$Mouse.ID
-colnames(pheno.rz) = sub("wave", "DOwave", colnames(pheno.rz))
-colnames(pheno.rz) = sub("Batch", "batch", colnames(pheno.rz))
 
 # Load in genoprobs.
 genoprobs = readRDS("/hpcdata/gac/derived/Attie_DO_Islet_RNASeq/genoprobs/attie_DO500_genoprobs_v3.rds")
@@ -285,13 +296,18 @@ pheno.rz$DOwave = factor(pheno.rz$DOwave)
 pheno.rz$batch  = factor(pheno.rz$batch)
 
 # Read in the marker data.
-markers = readRDS("/hpcdata/gac/derived/CGD_DO_Genoprobs/marker_grid_0.02cM.rds")
+markers = readRDS("/hpcdata/gac/derived/CGD_DO_Genoprobs/marker_grid_0.02cM_plus.rds")
 
 # Make marker map.
 map = map_df_to_list(map = markers[,1:4], pos_column = "pos")
 
 # Calculate kinship matrix.
 K = calc_kinship(probs = genoprobs, type = "loco", quiet = FALSE, cores = 4)
+
+stopifnot(ncol(pheno) == ncol(pheno.rz))
+stopifnot(ncol(pheno) == nrow(pheno.descr))
+stopifnot(nrow(pheno) == nrow(genoprobs[[1]]))
+stopifnot(sum(sapply(genoprobs, dim)[3,]) == sum(sapply(map, length)))
 
 # Save to *.Rdata file.
 save(pheno, pheno.rz, pheno.descr, genoprobs, K, map, file = paste0(out.dir, 
@@ -306,8 +322,6 @@ rm(pheno, pheno.rz, pheno.descr, genoprobs, K, map)
 pheno = readRDS(paste0(pheno.dir, "attie_plasma_lipids_normalized.rds"))
 pheno$Mouse.ID = sub("\\-|\\.", "", pheno$Mouse.ID)
 rownames(pheno) = pheno$Mouse.ID
-colnames(pheno) = sub("wave", "DOwave", colnames(pheno))
-colnames(pheno) = sub("Batch", "batch", colnames(pheno))
 
 pheno.descr = read.delim(paste0(pheno.dict.dir, "plasma_lipids_pheno_dict.txt"))
 
@@ -318,8 +332,6 @@ stopifnot(colnames(pheno) == pheno.descr$data_name)
 pheno.rz = readRDS(paste0(pheno.dir, "attie_plasma_lipids_zscore_normalized.rds"))
 pheno.rz$Mouse.ID = sub("\\-|\\.", "", pheno.rz$Mouse.ID)
 rownames(pheno.rz) = pheno.rz$Mouse.ID
-colnames(pheno.rz) = sub("wave", "DOwave", colnames(pheno.rz))
-colnames(pheno.rz) = sub("Batch", "batch", colnames(pheno.rz))
 
 # Load in genoprobs.
 genoprobs = readRDS("/hpcdata/gac/derived/Attie_DO_Islet_RNASeq/genoprobs/attie_DO500_genoprobs_v3.rds")
@@ -343,13 +355,18 @@ pheno.rz$DOwave = factor(pheno.rz$DOwave)
 pheno.rz$batch  = factor(pheno.rz$batch)
 
 # Read in the marker data.
-markers = readRDS("/hpcdata/gac/derived/CGD_DO_Genoprobs/marker_grid_0.02cM.rds")
+markers = readRDS("/hpcdata/gac/derived/CGD_DO_Genoprobs/marker_grid_0.02cM_plus.rds")
 
 # Make marker map.
 map = map_df_to_list(map = markers[,1:4], pos_column = "pos")
 
 # Calculate kinship matrix.
 K = calc_kinship(probs = genoprobs, type = "loco", quiet = FALSE, cores = 4)
+
+stopifnot(ncol(pheno) == ncol(pheno.rz))
+stopifnot(ncol(pheno) == nrow(pheno.descr))
+stopifnot(nrow(pheno) == nrow(genoprobs[[1]]))
+stopifnot(sum(sapply(genoprobs, dim)[3,]) == sum(sapply(map, length)))
 
 # Save to *.Rdata file.
 save(pheno, pheno.rz, pheno.descr, genoprobs, K, map, file = paste0(out.dir, 
@@ -415,7 +432,7 @@ rm(pheno, pheno.rz, pheno.descr, genoprobs, K, map)
 #pheno.rz$batch = factor(pheno.rz$batch)
 
 # Read in the marker data.
-#markers = readRDS("/hpcdata/gac/derived/CGD_DO_Genoprobs/marker_grid_0.02cM.rds")
+#markers = readRDS("/hpcdata/gac/derived/CGD_DO_Genoprobs/marker_grid_0.02cM_plus.rds")
 
 # Make marker map.
 #map = map_df_to_list(map = markers[,1:4], pos_column = "pos")
@@ -487,7 +504,7 @@ rm(pheno, pheno.rz, pheno.descr, genoprobs, K, map)
 #pheno.rz$batch = factor(pheno.rz$batch)
 
 # Read in the marker data.
-#markers = readRDS("/hpcdata/gac/derived/CGD_DO_Genoprobs/marker_grid_0.02cM.rds")
+#markers = readRDS("/hpcdata/gac/derived/CGD_DO_Genoprobs/marker_grid_0.02cM_plus.rds")
 
 # Make marker map.
 #map = map_df_to_list(map = markers[,1:4], pos_column = "pos")
@@ -559,7 +576,7 @@ rm(pheno, pheno.rz, pheno.descr, genoprobs, K, map)
 #pheno.rz$batch = factor(pheno.rz$batch)
 
 # Read in the marker data.
-#markers = readRDS("/hpcdata/gac/derived/CGD_DO_Genoprobs/marker_grid_0.02cM.rds")
+#markers = readRDS("/hpcdata/gac/derived/CGD_DO_Genoprobs/marker_grid_0.02cM_plus.rds")
 
 # Make marker map.
 #map = map_df_to_list(map = markers[,1:4], pos_column = "pos")
@@ -581,9 +598,6 @@ rm(pheno, pheno.rz, pheno.descr, genoprobs, K, map)
 pheno = readRDS(paste0(pheno.dir, "attie_plasma_metabolites_normalized.rds"))
 pheno$Mouse.ID = sub("\\-|\\.", "", pheno$Mouse.ID)
 rownames(pheno) = pheno$Mouse.ID
-colnames(pheno) = sub("^wave", "DOwave", colnames(pheno))
-colnames(pheno) = sub("sex\\.x", "sex", colnames(pheno))
-colnames(pheno) = sub("Batch", "batch", colnames(pheno))
 
 pheno.descr = read.delim(paste0(pheno.dict.dir, "plasma_metabolites_pheno_dict.txt"))
 
@@ -594,8 +608,6 @@ stopifnot(colnames(pheno) == pheno.descr$data_name)
 pheno.rz = readRDS(paste0(pheno.dir, "attie_plasma_metabolites_zscore_normalized.rds"))
 pheno.rz$Mouse.ID = sub("\\-|\\.", "", pheno.rz$Mouse.ID)
 rownames(pheno.rz) = pheno.rz$Mouse.ID
-colnames(pheno.rz) = sub("^wave", "DOwave", colnames(pheno.rz))
-colnames(pheno.rz) = sub("Batch", "batch", colnames(pheno.rz))
 
 # Load in genoprobs.
 genoprobs = readRDS("/hpcdata/gac/derived/Attie_DO_Islet_RNASeq/genoprobs/attie_DO500_genoprobs_v3.rds")
@@ -619,13 +631,18 @@ pheno.rz$DOwave = factor(pheno.rz$DOwave)
 pheno.rz$batch  = factor(pheno.rz$batch)
 
 # Read in the marker data.
-markers = readRDS("/hpcdata/gac/derived/CGD_DO_Genoprobs/marker_grid_0.02cM.rds")
+markers = readRDS("/hpcdata/gac/derived/CGD_DO_Genoprobs/marker_grid_0.02cM_plus.rds")
 
 # Make marker map.
 map = map_df_to_list(map = markers[,1:4], pos_column = "pos")
 
 # Calculate kinship matrix.
 K = calc_kinship(probs = genoprobs, type = "loco", quiet = FALSE, cores = 4)
+
+stopifnot(ncol(pheno) == ncol(pheno.rz))
+stopifnot(ncol(pheno) == nrow(pheno.descr))
+stopifnot(nrow(pheno) == nrow(genoprobs[[1]]))
+stopifnot(sum(sapply(genoprobs, dim)[3,]) == sum(sapply(map, length)))
 
 # Save to *.Rdata file.
 save(pheno, pheno.rz, pheno.descr, genoprobs, K, map, file = paste0(out.dir, 
@@ -692,7 +709,7 @@ rm(pheno, pheno.rz, pheno.descr, genoprobs, K, map)
 #pheno.rz$batch = factor(pheno.rz$batch)
 
 # Read in the marker data.
-#markers = readRDS("/hpcdata/gac/derived/CGD_DO_Genoprobs/marker_grid_0.02cM.rds")
+#markers = readRDS("/hpcdata/gac/derived/CGD_DO_Genoprobs/marker_grid_0.02cM_plus.rds")
 
 # Make marker map.
 #map = map_df_to_list(map = markers[,1:4], pos_column = "pos")
@@ -752,13 +769,18 @@ pheno.rz$DOwave = factor(pheno.rz$DOwave)
 pheno.rz$batch  = factor(pheno.rz$batch)
 
 # Read in the marker data.
-markers = readRDS("/hpcdata/gac/derived/CGD_DO_Genoprobs/marker_grid_0.02cM.rds")
+markers = readRDS("/hpcdata/gac/derived/CGD_DO_Genoprobs/marker_grid_0.02cM_plus.rds")
 
 # Make marker map.
 map = map_df_to_list(map = markers[,1:4], pos_column = "pos")
 
 # Calculate kinship matrix.
 K = calc_kinship(probs = genoprobs, type = "loco", quiet = FALSE, cores = 4)
+
+stopifnot(ncol(pheno) == ncol(pheno.rz))
+stopifnot(ncol(pheno) == nrow(pheno.descr))
+stopifnot(nrow(pheno) == nrow(genoprobs[[1]]))
+stopifnot(sum(sapply(genoprobs, dim)[3,]) == sum(sapply(map, length)))
 
 # Save to *.Rdata file.
 save(pheno, pheno.rz, pheno.descr, genoprobs, K, map, markers, file = paste0(out.dir, 

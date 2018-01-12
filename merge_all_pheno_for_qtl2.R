@@ -197,19 +197,19 @@ covar.islet_protein = model.matrix(~sex + DOwave + batch, data = pheno.islet_pro
 
 # Make covar_factors (sex, wave, batch)
 covar_factors.liver_metab = data.frame(column_name = c("sex", "DOwave", "batch"), 
-                                       display_name = c("Sex", "Wave", "batch"))
+                                       display_name = c("Sex", "Wave", "Batch"))
 covar_factors.liver_lipid = data.frame(column_name = c("sex", "DOwave", "batch"), 
-                                       display_name = c("Sex", "Wave", "batch"))
+                                       display_name = c("Sex", "Wave", "Batch"))
 covar_factors.cecum_metab = data.frame(column_name = c("sex", "DOwave", "batch"), 
-                                       display_name = c("Sex", "Wave", "batch"))
+                                       display_name = c("Sex", "Wave", "Batch"))
 covar_factors.cecum_lipid = data.frame(column_name = c("sex", "DOwave", "batch"), 
-                                       display_name = c("Sex", "Wave", "batch"))
+                                       display_name = c("Sex", "Wave", "Batch"))
 covar_factors.plasma_metab = data.frame(column_name = c("sex", "DOwave", "batch"), 
-                                        display_name = c("Sex", "Wave", "batch"))
+                                        display_name = c("Sex", "Wave", "Batch"))
 covar_factors.plasma_lipid = data.frame(column_name = c("sex", "DOwave", "batch"), 
-                                        display_name = c("Sex", "Wave", "batch"))
+                                        display_name = c("Sex", "Wave", "Batch"))
 covar_factors.islet_protein = data.frame(column_name = c("sex", "DOwave", "batch"), 
-                                         display_name = c("Sex", "Wave", "batch"))
+                                         display_name = c("Sex", "Wave", "Batch"))
 
 samples.liver_metab   = data.frame(pheno.liver_metab[,1:11])
 samples.liver_lipid   = data.frame(pheno.liver_lipid[,1:13])

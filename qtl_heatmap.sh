@@ -11,6 +11,55 @@ module load R/3.4.1
 
 LODTHR=8
 
+#### Rankz Phenotypes ####
+
+##########
+# Cecum lipids, JAX normalized, sex, gen & batch.
+INFILE=/hpcdata/gac/projects/Attie_DO_Metabolomics/QTL/Cecum_rankZ/lipids/cecum_lipids_jax_norm_all_qtl.rds
+OUTFILE=/hpcdata/gac/projects/Attie_DO_Metabolomics/figures/QTL/Cecum_rankZ/lipids/cecum_lipids_qtl_heatmap.png
+
+R --no-save --args ${INFILE} ${OUTFILE} ${LODTHR} < qtl_heatmap.R > qtl_heatmap_cecum_lipids_jax_norm.Rout
+
+##########
+# Cecum metabolites, JAX normalized, sex, gen & batch.
+INFILE=/hpcdata/gac/projects/Attie_DO_Metabolomics/QTL/Cecum_rankZ/metabolites/cecum_metabolites_jax_norm_all_qtl.rds
+OUTFILE=/hpcdata/gac/projects/Attie_DO_Metabolomics/figures/QTL/Cecum_rankZ/metabolites/cecum_metabolites_qtl_heatmap.png
+
+R --no-save --args ${INFILE} ${OUTFILE} ${LODTHR} < qtl_heatmap.R > qtl_heatmap_cecum_metabolites_jax_norm.Rout
+
+##########
+# Liver lipids, JAX normalized, sex, gen & batch.
+INFILE=/hpcdata/gac/projects/Attie_DO_Metabolomics/QTL/Liver_rankZ/lipids_norm_jax/liver_lipids_jax_norm_all_qtl.rds
+OUTFILE=/hpcdata/gac/projects/Attie_DO_Metabolomics/figures/QTL/Liver_rankZ/lipids/liver_lipids_jax_qtl_heatmap.png
+
+R --no-save --args ${INFILE} ${OUTFILE} ${LODTHR} < qtl_heatmap.R > qtl_heatmap_liver_lipids_jax_norm.Rout
+
+##########
+# Liver metabolites, JAX normalized, sex, gen & batch.
+INFILE=/hpcdata/gac/projects/Attie_DO_Metabolomics/QTL/Liver/metabolites_norm_jax/liver_metabolites_jax_norm_all_qtl.rds
+OUTFILE=/hpcdata/gac/projects/Attie_DO_Metabolomics/figures/QTL/Liver_rankZ/metabolites/liver_metabolites_qtl_heatmap.png
+
+R --no-save --args ${INFILE} ${OUTFILE} ${LODTHR} < qtl_heatmap.R > qtl_heatmap_liver_metabolites_jax_norm.Rout
+
+##########
+# Plasma lipids, JAX normalized, sex, gen & batch.
+INFILE=/hpcdata/gac/projects/Attie_DO_Metabolomics/QTL/Plasma_rankZ/lipids/plasma_lipids_jax_norm_all_qtl.rds
+OUTFILE=/hpcdata/gac/projects/Attie_DO_Metabolomics/figures/QTL/Plasma_rankZ/lipids/plasma_lipids_qtl_heatmap.png
+
+R --no-save --args ${INFILE} ${OUTFILE} ${LODTHR} < qtl_heatmap.R > qtl_heatmap_plasma_lipids_jax_norm.Rout
+
+##########
+# Plasma metabolites, JAX normalized, sex, gen & batch.
+INFILE=/hpcdata/gac/projects/Attie_DO_Metabolomics/QTL/Plasma_rankZ/metabolites/plasma_metabolites_jax_norm_all_qtl.rds
+OUTFILE=/hpcdata/gac/projects/Attie_DO_Metabolomics/figures/QTL/Plasma_rankZ/metabolites/plasma_metabolites_qtl_heatmap.png
+
+R --no-save --args ${INFILE} ${OUTFILE} ${LODTHR} < qtl_heatmap.R > qtl_heatmap_plasma_metabolites_jax_norm.Rout
+
+
+
+#### Non-RankZ Transformed phenotypes ####
+
+
 ##########
 # Liver lipids, JAX normalized, sex, gen & batch.
 INFILE=/hpcdata/gac/projects/Attie_DO_Metabolomics/QTL/Liver/lipids_norm_jax/liver_lipids_jax_norm_all_qtl.rds
@@ -123,3 +172,4 @@ INFILE=/hpcdata/gac/projects/Attie_DO_Metabolomics/QTL/Islet/proteins/islet_prot
 OUTFILE=/hpcdata/gac/projects/Attie_DO_Metabolomics/figures/QTL/islet_proteins/islet_proteins_jax_qtl_heatmap.png
 
 R --no-save --args ${INFILE} ${OUTFILE} ${LODTHR} < qtl_heatmap.R > qtl_heatmap_islet_proteins_jax_norm.Rout
+

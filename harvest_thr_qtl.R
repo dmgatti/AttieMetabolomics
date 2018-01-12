@@ -29,7 +29,7 @@ print(paste("THR =", thr))
 qtl = readRDS(input.file)
 
 # Read in the marker map and subset to include the markers we used.
-markers = readRDS("/hpcdata/gac/derived/CGD_DO_Genoprobs/marker_grid_0.02cM.rds")
+markers = readRDS("/hpcdata/gac/derived/CGD_DO_Genoprobs/marker_grid_0.02cM_plus.rds")
 markers = markers[rownames(qtl),]
 markers[,2] = factor(markers[,2], levels = c(1:19, "X"))
 map = split(markers, markers$chr)

@@ -27,6 +27,17 @@ print(paste("FIGURE DIR =", fig.dir))
 # Get the QTL files, which may contain more than one result.
 qtl.files = dir(path = input.dir, pattern = "_QTL.rds$", full.names = T)
 
+# Verify that we have all of the QTL files.
+chunk.num = gsub(input.dir, "", qtl.files)
+chunk.num = gsub("^/chunk_|_QTL.rds$", "", chunk.num)
+chunk.num = sort(as.numeric(chunk.num))
+sd = setdiff(1:max(chunk.num), chunk.num)
+if(length(sd) > 0) {
+
+  stop(paste("Some output files are missing:", paste(sd, collapse = ", ")))
+
+} # if(length(sd) > 0)
+
 # Read in the marker map and subset to include the markers we used.
 markers = readRDS("/hpcdata/gac/derived/CGD_DO_Genoprobs/marker_grid_0.02cM.rds")
 map = map_df_to_list(map = markers, pos_column = "pos")

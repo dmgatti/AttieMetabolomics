@@ -58,7 +58,7 @@ rownames(data)[prop.missing > 0.25]
 #data = data[keep,]
 #annot = annot[keep,]
 
-# 382 samples, 283 analytes.
+# 366 samples, 500 analytes.
 dim(data)
 
 ######################
@@ -146,9 +146,12 @@ attie_MY = read_csv(paste0(input.dir, "attie_sample_info_ChrM_Y.csv"))
 attie_MY$Mouse.ID = sub("^DO-", "DO", attie_MY$Mouse.ID)
 annot = right_join(annot, attie_MY, by = "Mouse.ID")
 annot = annot[,-grep("\\.y$", colnames(annot))]
+colnames(annot) = sub("\\.x$", "", colnames(annot))
 
 data.log = data.frame(Mouse.ID = rownames(data.log), data.log)
 data.out = right_join(annot, data.log, by = "Mouse.ID")
+rownames(data.out) = data.out$Mouse.ID
+data.out$DOwave[is.na(data.out$DOwave)] = 1
 
 saveRDS(data.out, file = paste0(output.dir, "attie_cecum_metabolites_normalized.rds"))
 
@@ -160,7 +163,7 @@ rankZ = function(x) {
   return(qnorm(x))
 } # rankZ()
 
-for(i in 11:ncol(data.rz)) {
+for(i in 12:ncol(data.rz)) {
   data.rz[,i] = rankZ(data.rz[,i])
 }
 

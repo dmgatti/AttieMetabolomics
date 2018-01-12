@@ -89,3 +89,45 @@ OUTPUTPREFIX=/hpcdata/gac/projects/Attie_DO_Metabolomics/QTL/Islet/proteins/isle
 FIGDIR=/hpcdata/gac/projects/Attie_DO_Metabolomics/figures/QTL/islet_proteins/
 R --no-save --args ${INPUTDIR} ${OUTPUTPREFIX} ${FIGDIR} < gather_qtl_output.R > gather_qtl_islet_proteins_jax.Rout
 
+###############
+# RankZ phenotypes.
+
+# Cecum lipids. (NOTE: Place a / at the end of the paths)
+INPUTDIR=/hpcdata/gac/projects/Attie_DO_Metabolomics/QTL/Cecum_rankZ/lipids/
+OUTPUTPREFIX=/hpcdata/gac/projects/Attie_DO_Metabolomics/QTL/Cecum_rankZ/lipids/cecum_lipids_jax_norm
+FIGDIR=/hpcdata/gac/projects/Attie_DO_Metabolomics/figures/QTL/Cecum_rankZ/lipids/
+R --no-save --args ${INPUTDIR} ${OUTPUTPREFIX} ${FIGDIR} < gather_qtl_output.R > gather_qtl_cecum_lipids_jax.Rout
+
+# Cecum metabolites. (NOTE: Place a / at the end of the paths)
+INPUTDIR=/hpcdata/gac/projects/Attie_DO_Metabolomics/QTL/Cecum_rankZ/metabolites/
+OUTPUTPREFIX=/hpcdata/gac/projects/Attie_DO_Metabolomics/QTL/Cecum_rankZ/metabolites/cecum_metabolites_jax_norm
+FIGDIR=/hpcdata/gac/projects/Attie_DO_Metabolomics/figures/QTL/Cecum_rankZ/metabolites/
+R --no-save --args ${INPUTDIR} ${OUTPUTPREFIX} ${FIGDIR} < gather_qtl_output.R > gather_qtl_cecum_metabolites_jax.Rout
+
+# Liver lipids. (NOTE: Place a / at the end of the paths)
+INPUTDIR=/hpcdata/gac/projects/Attie_DO_Metabolomics/QTL/Liver_rankZ/lipids_norm_jax/
+OUTPUTPREFIX=/hpcdata/gac/projects/Attie_DO_Metabolomics/QTL/Liver_rankZ/lipids_norm_jax/liver_lipids_jax_norm
+FIGDIR=/hpcdata/gac/projects/Attie_DO_Metabolomics/figures/QTL/Liver_rankZ/lipids/
+R --no-save --args ${INPUTDIR} ${OUTPUTPREFIX} ${FIGDIR} < gather_qtl_output.R > gather_qtl_liver_lipids_jax.Rout
+
+# Liver metabolites. (NOTE: Place a / at the end of the paths)
+INPUTDIR=/hpcdata/gac/projects/Attie_DO_Metabolomics/QTL/Liver_rankZ/metabolites_norm_jax/
+OUTPUTPREFIX=/hpcdata/gac/projects/Attie_DO_Metabolomics/QTL/Liver_rankZ/metabolites_norm_jax/liver_metabolites_jax_norm
+FIGDIR=/hpcdata/gac/projects/Attie_DO_Metabolomics/figures/QTL/Liver_rankZ/metabolites/
+R --no-save --args ${INPUTDIR} ${OUTPUTPREFIX} ${FIGDIR} < gather_qtl_output.R > gather_qtl_liver_metabolites_jax.Rout
+
+# Plasma lipids. (NOTE: Place a / at the end of the paths)
+INPUTDIR=/hpcdata/gac/projects/Attie_DO_Metabolomics/QTL/Plasma_rankZ/lipids/
+OUTPUTPREFIX=/hpcdata/gac/projects/Attie_DO_Metabolomics/QTL/Plasma_rankZ/lipids/plasma_lipids_jax_norm
+FIGDIR=/hpcdata/gac/projects/Attie_DO_Metabolomics/figures/QTL/Plasma_rankZ/lipids/
+R --no-save --args ${INPUTDIR} ${OUTPUTPREFIX} ${FIGDIR} < gather_qtl_output.R > gather_qtl_plasma_lipids_jax.Rout
+
+# Plasma metabolites. (NOTE: Place a / at the end of the paths)
+INPUTDIR=/hpcdata/gac/projects/Attie_DO_Metabolomics/QTL/Plasma_rankZ/metabolites/
+OUTPUTPREFIX=/hpcdata/gac/projects/Attie_DO_Metabolomics/QTL/Plasma_rankZ/metabolites/plasma_metabolites_jax_norm
+FIGDIR=/hpcdata/gac/projects/Attie_DO_Metabolomics/figures/QTL/Plasma_rankZ/metabolites/
+R --no-save --args ${INPUTDIR} ${OUTPUTPREFIX} ${FIGDIR} < gather_qtl_output.R > gather_qtl_plasma_metabolites_jax.Rout
+
+
+
+

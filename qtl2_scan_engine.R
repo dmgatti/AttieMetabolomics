@@ -15,24 +15,32 @@ library(dplyr)
 # 2: output dir and file prefix.
 # 3: chunk_size: integer that is the chunk size.
 # 4: chunk_number: integer that is the chunk number to run.
+# 5: rankz: boolean indicating whether to rankZ transform the phenotypes.
 args = commandArgs(trailingOnly = TRUE)
 
 input.file = args[1]
 output.prefix = args[2]
 chunk_size = as.numeric(args[3])
 chunk_number = as.numeric(args[4])
+should.rankz = as.logical(args[5])
 
 print(paste("INPUT:", input.file))
 print(paste("OUTPUT:", output.prefix))
 print(paste("CHUNK_SIZE:", chunk_size))
 print(paste("CHUNK_NUMBER:", chunk_number))
+print(paste("RANKZ:", should.rankz))
+
+rankZ = function(x) {
+  x = rank(x, na.last = "keep", ties.method = "average") / (sum(!is.na(x)) + 1)
+  return(qnorm(x))
+} # rankZ()
 
 #####################
 # Load in the data. #
 #####################
 load(input.file)
 
-stopifnot(c("pheno", "pheno.descr", "genoprobs", "K", "map") %in% ls())
+stopifnot(c("pheno", "pheno.rz", "pheno.descr", "genoprobs", "K", "map") %in% ls())
 
 ######################
 # Set up covariates. #
@@ -60,8 +68,18 @@ pheno = as.matrix(pheno[,pheno.descr$is_pheno])
 max_col = ncol(pheno)
 pheno.rng = ((chunk_number - 1) * chunk_size + 1):(chunk_number * chunk_size)
 if(pheno.rng[length(pheno.rng)] > max_col) {
+
   pheno.rng = pheno.rng[1]:max_col
-}
+
+} # if(pheno.rng[length(pheno.rng)] > max_col)
+
+print(paste("Mapping columns:", pheno.rng[1], "to", pheno.rng[length(pheno.rng)]))
+
+if(should.rankz) {
+
+  pheno[,pheno.rng] = apply(pheno[,pheno.rng,drop = F], 2, rankZ)
+
+} # if(should.rankz)
 
 #########
 # Scan1 #

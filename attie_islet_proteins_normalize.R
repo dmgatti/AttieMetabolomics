@@ -11,24 +11,48 @@ library(sva)
 
 input.dir  = "/hpcdata/gac/raw/Attie_DO_Metabolomics/"
 output.dir = "/hpcdata/gac/derived/Attie_DO_Metabolomics/data/"
+uniprot.file = "/hpcdata/gac/raw/Attie_DO_Metabolomics/raw_data/Uniprot2Ensembl.tab"
 
 setwd("/hpcdata/gac/projects/Attie_DO_Metabolomics/")
 
 # Read in the raw metabolomics data.
 prot = read_delim(paste0(input.dir, "formatted_data/DO_islet_proteomics_non_normalized.txt"),
         delim = "\t")
+prot$Mouse.ID = gsub("[^[:alnum:]]", "", prot$Mouse.ID)
 rownames(prot) = prot$Mouse.ID
 
 # Read in the sample annotation.
 annot = read_delim(paste0(input.dir, "attie_DO_sample_annot.txt"), delim = "\t")
+annot$Mouse.ID = gsub("[^[:alnum:]]", "", annot$Mouse.ID)
 
 # Merge the sample annotation and data.
 prot = right_join(annot, prot, by = "Mouse.ID")
 
-# Keep columns that are < 50% NA.
+# Keep columns that are < 20% NA.
 dim(prot)
-prot = prot[,colSums(is.na(prot)) < 0.5 * nrow(prot)]
+prot = prot[,colSums(is.na(prot)) < 0.2 * nrow(prot)]
 dim(prot)
+
+# Read in the Uniprot to Ensembl IDs.
+uniprot2ensembl = read_delim(uniprot.file, delim = "\t", trim_ws = TRUE)
+
+# Replace the Uniprot IDs with Ensembl gene IDs.
+for(i in 1:nrow(uniprot2ensembl)) {
+
+  if(i %% 10 == 0) print(i)
+  colnames(prot) = gsub(uniprot2ensembl$From[i], uniprot2ensembl$To[i], colnames(prot))
+
+} # for(i)
+
+# Condense the IDs.
+cn = strsplit(colnames(prot)
+for(i in 11:ncol(prot)) {
+
+################################
+###### STOPPED HERE ############
+################################
+
+}
 
 # Split up the sample annotation from the data and convert the data into a 
 # numeric matrix.
@@ -53,6 +77,8 @@ dev.off()
 ctrl = grep("Std", annot$Mouse.ID)
 data = data[-ctrl,]
 annot = annot[-ctrl,]
+
+rownames(data) = gsub("[^[:alnum:]]", "", rownames(data))
 
 # 375 samples (still with some replicates) and 5,433 analytes.
 dim(data)
@@ -102,7 +128,9 @@ legend("topright", legend = levels(plate), pch = 16, col = plate.colors)
 dev.off()
 
 # Set up batch and model for comBat.
-mod = model.matrix(~sex, data = annot)[,-3]
+annot$sex  = factor(annot$sex)
+annot$wave = factor(annot$wave)
+mod = model.matrix(~sex, data = annot)
 batch = annot$Batch
 
 chg = 1e6
@@ -114,7 +142,7 @@ repeat( {
   # Impute missing data.
   miss = which(is.na(data.log))
   print(paste(length(miss), "missing points."))
-  pc.data = pca(data.log, method = "bpca", nPcs = 7)
+  pc.data = pca(data.log, method = "bpca", nPcs = 5)
   data.compl = completeObs(pc.data)
 
   # Batch adjust.
@@ -165,9 +193,11 @@ annot = annot[match(rownames(data.log), annot$Mouse.ID),]
 
 # Merge in the Chr M and Y info.
 attie_MY = read_csv(paste0(input.dir, "attie_sample_info_ChrM_Y.csv"))
+attie_MY$Mouse.ID = gsub("[^[:alnum:]]", "", attie_MY$Mouse.ID)
 annot = right_join(annot, attie_MY, by = "Mouse.ID")
-annot = annot[,c(1:10, 12:14)]
 colnames(annot) = sub("\\.x", "", colnames(annot))
+colnames(annot) = sub("wave", "DOwave", colnames(annot))
+colnames(annot) = sub("Batch", "batch", colnames(annot))
 
 data.log = data.frame(Mouse.ID = rownames(data.log), data.log)
 data.log = data.log[,colnames(data.log) != "Mouse.ID.1"]

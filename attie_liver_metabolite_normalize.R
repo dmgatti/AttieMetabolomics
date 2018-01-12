@@ -40,7 +40,7 @@ annot$batch  = factor(annot$batch)
 dim(data)
 
 # Make a PCA plot of all of the data, with sample labels.
-pc.data = pca(log(data), method = "bpca", nPcs = 20)
+pc.data = pca(log(data), method = "bpca", nPcs = 10)
 pdf("figures/liver_metabolites_unnormalized_all_data_PCA.pdf")
 batch.colors = as.numeric(factor(annot$batch))
 plot(scores(pc.data), pch = 16, col = 0, main = "Un-normalized Liver Metabolites, Colored by Batch")
@@ -98,7 +98,9 @@ dev.off()
 
 # Set up batch and model for comBat.
 # Note, can't add wave because it's condounded by batch.
-mod = model.matrix(~sex, data = annot)[,-1]
+annot$sex    = factor(annot$sex)
+annot$DOwave = factor(annot$DOwave)
+mod = model.matrix(~sex, data = annot)
 batch = annot$batch
 
 chg = 1e6
@@ -146,9 +148,11 @@ attie_MY = read_csv(paste0(input.dir, "attie_sample_info_ChrM_Y.csv"))
 attie_MY$Mouse.ID = sub("^DO-", "DO", attie_MY$Mouse.ID)
 annot = right_join(annot, attie_MY, by = "Mouse.ID")
 annot = annot[,-grep("\\.y$", colnames(annot))]
+colnames(annot) = sub("\\.x$", "", colnames(annot))
 
 data.log = data.frame(Mouse.ID = rownames(data.log), data.log)
 data.out = right_join(annot, data.log, by = "Mouse.ID")
+rownames(data.out) = data.out$Mouse.ID
 
 saveRDS(data.out, file = paste0(output.dir, "attie_liver_metabolites_normalized.rds"))
 
@@ -160,7 +164,7 @@ rankZ = function(x) {
   return(qnorm(x))
 } # rankZ()
 
-for(i in 11:ncol(data.rz)) {
+for(i in 12:ncol(data.rz)) {
   data.rz[,i] = rankZ(data.rz[,i])
 }
 
@@ -170,7 +174,7 @@ saveRDS(data.rz, file = paste0(output.dir, "attie_liver_metabolites_zscore_norma
 # Make PCA plots of the normalized data, colored by batch, sex, etc.
 pdf("figures/liver_metabolites_normalized_PCA.pdf", width = 12, height = 7)
 
-pc.data = pca(as.matrix(data.out[,-(1:13)]), method = "bpca", nPcs = 20)
+pc.data = pca(as.matrix(data.out[,-(1:13)]), method = "bpca", nPcs = 10)
 
 layout(matrix(1:2, 1, 2))
 sex = factor(data.out$sex)
@@ -250,7 +254,7 @@ annot.wisc = annot[annot$Mouse.ID %in% rownames(norm),]
 norm = norm[annot.wisc$Mouse.ID,]
 stopifnot(annot.wisc$Mouse.ID == rownames(norm))
 
-pc.data = pca(norm, method = "bpca", nPcs = 20)
+pc.data = pca(norm, method = "bpca", nPcs = 10)
 
 pdf("figures/metabolites_UWisc_normalized_PCA.pdf", width = 12, height = 7)
 

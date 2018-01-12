@@ -15,19 +15,21 @@ output.dir = "/hpcdata/gac/derived/Attie_DO_Metabolomics/data/"
 setwd("/hpcdata/gac/projects/Attie_DO_Metabolomics/")
 
 # Read in the raw lipid data.
-lipid = read_delim(paste0(input.dir, "formatted_data/21June2017_DOCecumLipidomicsRaw.txt"),
+lipid = read_delim(paste0(input.dir, "formatted_data/03_January_2018_DO_Cecum_Lipidomics_Raw.txt"),
         delim = "\t")
 
 # Read in the sample annotation.
 annot = read_delim(paste0(input.dir, "attie_DO_sample_annot.txt"), delim = "\t")
+annot$Mouse.ID = gsub("[^[:alnum:]]", "", annot$Mouse.ID)
+rownames(annot) = annot$Mouse.ID
 
 # Merge the sample annotation and data.
 lipid = right_join(annot, lipid, by = "Mouse.ID")
 
 # Split up the sample annotation from the data and convert the data into a 
 # numeric matrix.
-annot = as.data.frame(lipid[,1:11])
-data  = as.matrix(lipid[,-(1:11)])
+annot = as.data.frame(lipid[,1:8])
+data  = as.matrix(lipid[,-(1:8)])
 rownames(data)  = annot$Mouse.ID
 
 dim(data)
@@ -36,7 +38,7 @@ dim(data)
 range(data)
 
 # Make a PCA plot of all of the data, with sample labels.
-pc.data = pca(log(data), method = "bpca", nPcs = 20)
+pc.data = pca(log(data), method = "bpca", nPcs = 10)
 
 pdf("figures/cecum_lipids_unnormalized_all_data_PCA.pdf")
 
@@ -48,11 +50,11 @@ text(scores(pc.data)[,1], scores(pc.data)[,2], labels = rownames(data),
 dev.off()
 
 # Remove control samples.
-ctrl = which(annot$Mouse.ID == "Control")
+ctrl = grep("Control", annot$Mouse.ID)
 data = data[-ctrl,]
 annot = annot[-ctrl,]
 
-# 381 samples and 2238 analytes.
+# 381 samples and 3371 analytes.
 dim(data)
 
 ######################
@@ -60,7 +62,7 @@ dim(data)
 data.log = log(data)
 
 # pcaMethods wants samples in rows and variables in columns.
-pc.data = pca(data.log, method = "bpca", nPcs = 20)
+pc.data = pca(data.log, method = "bpca", nPcs = 10)
 plot(pc.data)
 abline(h = 0.95, col = 2)
 
@@ -93,7 +95,9 @@ dev.off()
 boxplot(scores(pc.data)[,1] ~ batch)
 
 # Set up batch and model for comBat.
-mod = model.matrix(~sex, data = annot)[,-3]
+annot$sex  = factor(annot$sex)
+annot$wave = factor(annot$wave)
+mod = model.matrix(~sex + wave, data = annot)
 batch = annot$Batch
 
 # Batch adjust.
@@ -106,12 +110,16 @@ dupl = which(duplicated(rownames(data.cb)))
 
 # Merge in the Chr M and Y info.
 attie_MY = read_csv(paste0(input.dir, "attie_sample_info_ChrM_Y.csv"))
+attie_MY$Mouse.ID = gsub("[^[:alnum:]]", "", attie_MY$Mouse.ID)
 annot = right_join(annot, attie_MY, by = "Mouse.ID")
-annot = annot[,c(1:10, 13:15)]
 colnames(annot) = sub("\\.x", "", colnames(annot))
+annot = annot[,-grep("\\y$", colnames(annot))]
 
 data.cb  = data.frame(Mouse.ID = rownames(data.cb), data.cb)
 data.out = right_join(annot, data.cb, by = "Mouse.ID")
+rownames(data.out) = data.out$Mouse.ID
+colnames(data.out) = sub("Batch", "batch", colnames(data.out))
+colnames(data.out) = sub("wave", "DOwave", colnames(data.out))
 
 saveRDS(data.out, file = paste0(output.dir, "attie_cecum_lipids_normalized.rds"))
 
@@ -123,7 +131,7 @@ rankZ = function(x) {
   return(qnorm(x))
 } # rankZ()
 
-for(i in 14:ncol(data.rz)) {
+for(i in 13:ncol(data.rz)) {
   data.rz[,i] = rankZ(data.rz[,i])
 }
 
@@ -133,7 +141,7 @@ saveRDS(data.rz, file = paste0(output.dir, "attie_cecum_lipids_zscore_normalized
 # Make PCA plots of the normalized data, colored by batch, sex, etc.
 pdf("figures/cecum_lipids_normalized_PCA.pdf", width = 12, height = 7)
 
-pc.data = pca(as.matrix(data.out[,-(1:13)]), method = "bpca", nPcs = 20)
+pc.data = pca(as.matrix(data.out[,-(1:13)]), method = "bpca", nPcs = 10)
 
 layout(matrix(1:2, 1, 2))
 sex = factor(data.out$sex)
@@ -145,7 +153,7 @@ plot(scores(pc.data)[,3:2], pch = 16, col = as.numeric(sex),
 legend("bottomleft", legend = levels(sex), pch = 16, col = 1:length(levels(sex)))
 
 layout(matrix(1:2, 1, 2))
-batch = factor(data.out$Batch)
+batch = factor(data.out$batch)
 plot(scores(pc.data), pch = 16, col = as.numeric(batch),
      main = "Normalized Cecum Lipids Colored by Batch")
 legend("bottomleft", legend = levels(batch), pch = 16, col = 1:length(levels(batch)),
@@ -156,7 +164,7 @@ legend("bottomleft", legend = levels(batch), pch = 16, col = 1:length(levels(bat
        x.intersp = 0.7, y.intersp = 0.7)
 
 layout(matrix(1:2, 1, 2))
-wave = factor(data.out$wave)
+wave = factor(data.out$DOwave)
 plot(scores(pc.data), pch = 16, col = as.numeric(wave),
      main = "Normalized Cecum Lipids Colored by Wave")
 legend("bottomleft", legend = levels(wave), pch = 16, col = 1:length(levels(wave)),
@@ -178,15 +186,15 @@ dev.off()
 
 # Look at the distribution of phenotypes and the correlation between phenotypes
 # and samples.
-annot = data.out[,1:13]
-data  = as.matrix(data.out[,-(1:13)])
+annot = data.out[,1:11]
+data  = as.matrix(data.out[,-(1:11)])
 
 pdf("figures/cecum_lipids_normalized_boxplot.pdf", width = 12, height = 7)
 boxplot(data, range = 0, main = "DO Cecum Lipids")
 dev.off()
 
 pdf("figures/cecum_lipids_normalized_heatmap.pdf", width = 12, height = 12)
-batch.colors = rainbow(12)[as.numeric(factor(annot$Batch))]
+batch.colors = rainbow(12)[as.numeric(factor(annot$batch))]
 heatmap(data, RowSideColors = batch.colors, main = "DO Cecum Lipids")
 dev.off()
 
